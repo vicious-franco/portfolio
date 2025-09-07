@@ -1,0 +1,66 @@
+@import "tailwindcss";
+body {
+  background-color: rgb(11, 19, 36);
+  /* or this color 0f192d */
+  overflow-x: hidden;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+.welcome-text {
+  background: linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.4)
+    ),
+    linear-gradient(90.01deg, #0eac79 31%, #0d8a65 100%);
+  background-blend-mode: normal, screen;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.welcome-box {
+  isolation: isolate;
+  overflow: hidden;
+  align-items: center;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-radius: 32px;
+  box-shadow: inset 2px 1px 5px #10b98171;
+  width: max-content;
+  width: -moz-max-content;
+  display: flex;
+  position: relative;
+  transition: 0.45s cubic-bezier(0.6, 0.6, 0, 1) box-shadow;
+}
+
+@layer utilities {
+  @keyframes bouncing {
+    0% {
+      transform: translateY(-2.4em);
+    }
+    50% {
+      transform: translateY(0em);
+    }
+    100% {
+      transform: translateY(-2.4em);
+    }
+  }
+  .bounce {
+    animation: bouncing 2s linear infinite;
+  }
+
+  @keyframes autoLoader {
+    0% {
+      width: 100%;
+    }
+
+    100% {
+      width: 0;
+    }
+  }
+  .ToastLoad {
+    animation: autoLoader 3s linear forwards;
+  }
+}
