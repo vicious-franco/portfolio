@@ -1,34 +1,42 @@
-import { setStyle } from "framer-motion";
 import React, { useEffect, useState } from "react";
 
-const Loader = () => {
-  const [outputText, setOutputText] = useState("");
-  const text = " Welcome to My Portfolio";
+const Loader = ({ isLoading, setisLoading }) => {
+  const fullText = "welcome to my portfolio";
+  const [displayText, setDisplayText] = useState("");
+  const [loadingPercentage, setLoadingPercentage] = useState(0);
 
   useEffect(() => {
     let index = 0;
-    const typeWritter = () => {
-      const interval = setInterval(() => {
-        if (index < text.length) {
-          console.log(index);
-          setOutputText((prev) => prev + text.charAt(index));
-          index += 1;
-        } else {
-          clearInterval(interval);
-          setTimeout(() => setOutputText(""), 1000);
-        }
-      }, 300);
+    const interval = setInterval(() => {
+      if (index < fullText.length) {
+        setDisplayText(fullText.substring(0, index + 1));
+        setLoadingPercentage(((index + 1) * 100) / fullText.length);
+        index++;
+      } else {
+        clearInterval(interval);
+      }
+      if (index === fullText.length) {
+        setTimeout(() => setisLoading(false), 300);
+      }
+    }, 150);
 
-      return () => clearInterval(interval);
-    };
-    typeWritter();
+    return () => clearInterval(interval);
   }, []);
-
   return (
     <div className="w-full flex flex-col items-center justify-center min-h-screen">
       <div>
-        <h1 className="text-white text-center">{outputText}</h1>
-        <div className="w-[20em] m-auto h-2 border border-white"></div>
+        <h1 className="text-[#70d4b4ca] transition-all text-center font-mono capitalize text-2xl md:text-3xl mb-4">
+          {displayText} {loadingPercentage < 100 ? <span>|</span> : null}
+        </h1>
+        <div className="max-w-[20em] mx-3 sm:mx-auto sm:w-[20em] m-auto h-2 rounded-full border border-[#4bd3a8ca]">
+          <div
+            style={{ width: `${loadingPercentage}%` }}
+            className="h-full bg-gradient-to-r from-0 to-[#4bd3a8ca] transition-all ease-in-out duration-200 rounded-r-full"
+          ></div>
+          <p className="text-center text-gray-400 font-mono mt-4">
+            {loadingPercentage < 100 ? "Initialising..." : "ready"}
+          </p>
+        </div>
       </div>
     </div>
   );

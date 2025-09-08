@@ -7,13 +7,11 @@ import Loader from "./Components/Loader";
 const App = () => {
   const [isLoading, setisLoading] = useState(true);
   if (isLoading) {
-    return <Loader />;
+    return <Loader isLoading={isLoading} setisLoading={setisLoading} />;
   }
   return (
     <div className=" max-w-screen  overflow-hidden">
       <ContextProvider>
-        {isLoading}
-        <Loader />
         <Hero />
         <MsgSentToast />
       </ContextProvider>
