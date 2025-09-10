@@ -1,12 +1,7 @@
 import { motion } from "framer-motion";
 import React, { useState } from "react";
-import {
-  slideInFromLeft,
-  slideInFromRight,
-  slideInFromTop,
-} from "../utilis/motion";
+import { slideInFromLeft, slideInFromTop } from "../utilis/motion";
 import { HiSparkles } from "react-icons/hi2";
-import stackIcons from "../assets/dev assets/mainIconsdark.svg";
 import avatar from "../assets/dev assets/projects/avatar.png";
 import { socialIcons } from "../assets/data";
 import Typewriter from "typewriter-effect";
@@ -32,7 +27,7 @@ const HeroContent = () => {
           </h1>
         </motion.div>
         <motion.div
-          variants={slideInFromLeft(0.5)}
+          variants={slideInFromLeft(1)}
           className="flex flex-col mt-6 gap-6  font-bold text-gray-300 w-auto h-auto"
         >
           <div className="text-2xl leading-8 w-full text-wrap inline-block overflow-hidden text-start  items-center">
@@ -134,7 +129,7 @@ const HeroContent = () => {
           <hr color="#c7cbd3" className="w-[1.8px] h-30 " />
 
           <span className="text-nowrap mt-6 -rotate-90 mb-8 text-md font-semibold capitalize">
-           contact me
+            contact me
           </span>
         </div>
       </div>
