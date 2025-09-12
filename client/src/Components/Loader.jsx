@@ -25,13 +25,13 @@ const Loader = ({ isLoading, setisLoading }) => {
   return (
     <div className="w-full flex flex-col items-center justify-center min-h-screen">
       <div>
-        <h1 className="text-[#70d4b4ca] transition-all text-center font-mono capitalize text-2xl md:text-3xl mb-4">
+        <h1 className="text-[#02a94c] transition-all text-center font-mono capitalize text-2xl md:text-3xl mb-4">
           {displayText} {loadingPercentage < 100 ? <span>|</span> : null}
         </h1>
-        <div className="max-w-[20em] mx-3 sm:mx-auto sm:w-[20em] m-auto h-2 rounded-full border border-[#4bd3a8ca]">
+        <div className="max-w-[20em] mx-3 sm:mx-auto sm:w-[20em] m-auto h-2 rounded-full border border-[#02a94c]">
           <div
             style={{ width: `${loadingPercentage}%` }}
-            className="h-full bg-gradient-to-r from-0 to-[#4bd3a8ca] transition-all ease-in-out duration-200 rounded-r-full"
+            className="h-full bg-gradient-to-r from-0 to-[#02a94c] transition-all ease-in-out duration-200 rounded-r-full"
           ></div>
           <p className="text-center text-gray-400 font-mono mt-4">
             {loadingPercentage < 100 ? "Initialising..." : "ready"}
