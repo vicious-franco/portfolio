@@ -22,9 +22,9 @@ const Skills = () => {
           }}
           className="text-4xl font-extrabold text-center  text-white/85 uppercase tracking-wide"
         >
-          My <span className="text-[#4bd3a8ca]">Skills </span>
+          My <span className="text-[#02a94c]">Skills </span>
         </motion.h2>
-        <hr className="w-35 m-[18px_auto] border-t-2 border-[#4bd3a8ca]/50" />
+        <hr className="w-35 m-[18px_auto] border-t-2 border-[#02a94c]/50" />
       </div>
       <Swiper
         modules={[Pagination, Autoplay]}
@@ -47,7 +47,7 @@ const Skills = () => {
             <SwiperSlide key={index + 1}>
               <div
                 style={{ color: item.color }}
-                className="text-white w-[70vw] m-auto hover:shadow-[1px_1px_10px_#4bd3a8ca] cursor-pointer flex border border-[#4bd3a8ca] flex-col items-center backdrop-blur-3xl bg-gradient-to-b from-50% to-[#4bd3a856] rounded-md sm:w-[12em] py-3"
+                className="text-white w-[70vw] m-auto hover:shadow-[1px_1px_10px_#02a94c] cursor-pointer flex border border-[#02a94c] flex-col items-center backdrop-blur-3xl bg-gradient-to-b from-50% to-[#4bd3a856] rounded-md sm:w-[12em] py-3"
               >
                 <span className="text-5xl mb-3">
                   <item.Icon />
@@ -75,7 +75,7 @@ const Skills = () => {
             initial={{ opacity: 0, scale: 0.4 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, ease: easeInOut, type: "tween" }}
-            className="border-[#4bd3a8ca]/60  backdrop-blur-3xl h-full hover:-translate-[2px] ease-in-out hover:shadow-[0px_3px_12px_#4bd3a8ca] duration-500 border p-3 rounded-md flex flex-col justify-center"
+            className="border-[#02a94c]/60  backdrop-blur-3xl h-full hover:-translate-[2px] ease-in-out hover:shadow-[0px_3px_12px_#02a94c] duration-500 border p-3 rounded-md flex flex-col justify-center"
           >
             {frontEndSkills.map((item, index) => {
               return (
@@ -84,10 +84,10 @@ const Skills = () => {
                     <p>{item.name}</p>
                     <p>{item.rate}%</p>
                   </div>
-                  <div className="w-full h-3 border border-[#4bd3a878] rounded-md overflow-hidden flex items-center">
+                  <div className="w-full h-3 border border-[#02a94c] rounded-md overflow-hidden flex items-center">
                     <span
                       style={{ width: `${item.rate}%` }}
-                      className="inline-block  h-2 mx-1 rounded-l-lg bg-gradient-to-r from-0 to-[#4bd3a8ca]"
+                      className="inline-block  h-2 mx-1 rounded-l-lg bg-gradient-to-r from-0 to-[#02a94c] rounded-r-3xl"
                     ></span>
                   </div>
                 </div>
@@ -115,7 +115,7 @@ const Skills = () => {
               type: "tween",
               delay: 0.4,
             }}
-            className="border-[#4bd3a8ca]/60 backdrop-blur-3xl hover:shadow-[1px_1px_10px_#4bd3a8ca] duration-500 ease-in-out hover:-translate-1.5  h-full border p-3 rounded-md flex flex-col justify-start pt-12"
+            className="border-[#02a94c]/60 backdrop-blur-3xl hover:shadow-[1px_1px_10px_#02a94c] duration-500 ease-in-out hover:-translate-1.5  h-full border p-3 rounded-md flex flex-col justify-start pt-12"
           >
             {BackendSkills.map((item, index) => {
               return (
@@ -124,10 +124,10 @@ const Skills = () => {
                     <p>{item.name}</p>
                     <p>{item.rate}%</p>
                   </div>
-                  <div className="w-full h-3 border border-[#4bd3a8ca] rounded-md overflow-hidden flex items-center">
+                  <div className="w-full h-3 border border-[#02a94c] rounded-md overflow-hidden flex items-center">
                     <span
                       style={{ width: `${item.rate}%` }}
-                      className="inline-block  h-2 mx-1 rounded-l-lg bg-gradient-to-r from-0 to-[#4bd3a8ca]"
+                      className="inline-block  h-2 mx-1 rounded-l-lg bg-gradient-to-r from-0 to-[#02a94c] rounded-r-3xl"
                     ></span>
                   </div>
                 </div>

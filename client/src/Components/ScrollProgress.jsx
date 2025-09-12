@@ -19,12 +19,12 @@ const ScrollProgress = () => {
   return (
     <div
       style={{
-        background: `conic-gradient(rgba(75,211,168,0.7) 0deg ${degree}deg,#263a6379 ${degree}deg 360deg)`,
+        background: `conic-gradient(#02a94c 0deg ${degree}deg,#263a6379 ${degree}deg 360deg)`,
       }}
       className="cursor-pointer  hover:shadow-[1px_0px_10px_#4bd3a8ca] rounded-full ease-in-out duration-100 md:shadow-[1px_0px_4px_#4bd3a8ca] fixed w-[3.5em] h-[3.5em] md:w-[4em] md:h-[4em]  md:bottom-12 bottom-8 right-8 md:right-20 flex items-center justify-center z-15"
     >
       <div className="md:h-[3.5em] md:w-[3.5em] w-[3em] h-[3em] font-semibold flex items-center justify-center  bg-[#0e1729] rounded-full">
-        <h1 className="text-[#4bd3a8ca]">{Math.round((degree * 100) / 360)}</h1>
+        <h1 className="text-[#02a94c]">{Math.round((degree * 100) / 360)}</h1>
       </div>
     </div>
   );

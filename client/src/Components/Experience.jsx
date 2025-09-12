@@ -40,14 +40,14 @@ const Experience = () => {
     >
       <h2 className="text-4xl w-full text-center font-extrabold  mb-22 text-white/85 uppercase tracking-wide">
         <span>Education &</span>{" "}
-        <span className="text-[#4bd3a8ca]">experience </span>
-        <hr className="w-35 m-[18px_auto] border-t-2 border-[#4bd3a8ca]/50" />
+        <span className="text-[#02a94c]">experience </span>
+        <hr className="w-35 m-[18px_auto] border-t-2 border-[#02a94c]/50" />
       </h2>
 
       <div className="grid gap-10 lg:grid-cols-2 ">
         {/* Education Block */}
-        <div className="space-y-2 w-full border-[#4bd3a8ca]/60 backdrop-blur-3xl hover:shadow-[1px_1px_10px_#4bd3a8ca] duration-500 ease-in-out hover:-translate-1.5  h-full border rounded-md flex flex-col justify-start p-5  bg-[#4bd3a8ca]/6">
-          <h3 className="text-2xl font-semibold mb-4 text-[#4bd3a8ca]">
+        <div className="space-y-2 w-full border-[#02a94c]/60 backdrop-blur-3xl hover:shadow-[1px_1px_10px_#02a94c] duration-500 ease-in-out hover:-translate-1.5  h-full border rounded-md flex flex-col justify-start p-5  bg-[#02a94c]/6">
+          <h3 className="text-2xl font-semibold mb-4 text-[#02a94c]">
             🎓 Education
           </h3>
           <p className="text-lg font-semibold uppercase">
@@ -62,7 +62,7 @@ const Experience = () => {
             foundations.
           </p>
 
-          <hr className="my-4 border-[#4bd3a8ca]/20" />
+          <hr className="my-4 border-[#02a94c]/20" />
 
           <p className="text-lg font-medium">World Mission High School</p>
           <p className="text-sm text-gray-400">
@@ -77,15 +77,15 @@ const Experience = () => {
         {/* Experience Block */}
         <div
           className="
-        space-y-2 w-full  border-[#4bd3a8ca]/60 backdrop-blur-3xl hover:shadow-[1px_1px_10px_#4bd3a8ca] duration-500 ease-in-out hover:-translate-1.5  h-full border  rounded-md flex flex-col justify-start p-5 bg-[#4bd3a8ca]/6"
+        space-y-2 w-full  border-[#02a94c]/60 backdrop-blur-3xl hover:shadow-[1px_1px_10px_#02a94c] duration-500 ease-in-out hover:-translate-1.5  h-full border  rounded-md flex flex-col justify-start p-5 bg-[#02a94c]/6"
         >
-          <h3 className="text-2xl upper font-semibold mb-4 text-[#4bd3a8ca]">
+          <h3 className="text-2xl upper font-semibold mb-4 text-[#02a94c]">
             💼 Experience
           </h3>
           {experiences.map((exp, index) => (
             <div key={index} className="mb-6">
               <p className="text-lg font-medium">{exp.title}</p>
-              <p className="text-sm text-[#4bd3a8ca]">{exp.company}</p>
+              <p className="text-sm text-[#02a94c]">{exp.company}</p>
               <p className="text-sm text-gray-400">{exp.date}</p>
               <p className="mt-1 text-gray-300">{exp.description}</p>
             </div>

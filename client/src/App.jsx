@@ -4,6 +4,10 @@ import ContextProvider from "./GlobalContext/GlobalContext";
 import ScrollProgress from "./Components/ScrollProgress";
 import MsgSentToast from "./Components/MsgSentToast";
 import Loader from "./Components/Loader";
+import { Routes, Route } from "react-router-dom";
+import Login from "./Pages/Login";
+import DashBoard from "./Pages/DashBoard";
+
 const App = () => {
   const [isLoading, setisLoading] = useState(true);
   if (isLoading) {
@@ -11,11 +15,23 @@ const App = () => {
   }
   return (
     <div className=" max-w-screen  overflow-hidden">
-      <ContextProvider>
-        <Hero />
-        <MsgSentToast />
-      </ContextProvider>
-      <ScrollProgress />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <ContextProvider>
+              <Hero />
+              <MsgSentToast />
+              <ScrollProgress />
+            </ContextProvider>
+          }
+        />
+      </Routes>
+
+      <Routes>
+        <Route path="/auth/secret/admin-login" element={<Login />} />
+        <Route path="/auth/secret/admin/dashboard" element={<DashBoard />} />
+      </Routes>
     </div>
   );
 };

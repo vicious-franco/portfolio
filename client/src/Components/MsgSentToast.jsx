@@ -38,7 +38,7 @@ const MsgSentToast = () => {
           {/* close button */}
           <button
             onClick={() => setShowToast(false)}
-            className="absolute top-1 right-2 text-xl text-gray-700 hover:text-[#3cc59a] cursor-pointer"
+            className="absolute top-1 right-2 text-xl text-gray-700 hover:text-[#02a94c] cursor-pointer"
           >
             <IoClose />
           </button>{" "}

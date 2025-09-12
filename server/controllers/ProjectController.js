@@ -34,3 +34,4 @@ export const getProjects = async (req, res) => {
   }
   res.status(200).json({ success: true, projects: allProjects });
 };
+
