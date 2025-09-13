@@ -4,18 +4,19 @@ import ContextProvider from "./GlobalContext/GlobalContext";
 import ScrollProgress from "./Components/ScrollProgress";
 import MsgSentToast from "./Components/MsgSentToast";
 import Loader from "./Components/Loader";
-import { Routes, Route } from "react-router-dom";
-import Login from "./Pages/Login";
-import DashBoard from "./Pages/DashBoard";
+import { Routes, Route, useLocation } from "react-router-dom";
+import Login from "./admin/Login";
+import DashBoard from "./admin/DashBoard";
 
 const App = () => {
   const [isLoading, setisLoading] = useState(true);
-  if (isLoading) {
-    return <Loader isLoading={isLoading} setisLoading={setisLoading} />;
-  }
+  const location = useLocation();
+  // if (isLoading && !location.pathname.startsWith("/auth/secret")) {
+  //   return <Loader isLoading={isLoading} setisLoading={setisLoading} />;
+  // }
   return (
     <div className=" max-w-screen  overflow-hidden">
-      <Routes>
+      <Routes>  
         <Route
           path="/"
           element={

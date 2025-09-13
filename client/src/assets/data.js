@@ -82,59 +82,37 @@ export const projects = [
     id: 1,
     name: "Stripe",
     image: stripe,
-    techs: [
-      { id: 10, name: "React" },
-      { id: 11, name: "Tailwind" },
-    ],
+    stack: ["React", "Tailwind"],
   },
   {
     id: 2,
     name: "Accordion",
     image: accordion,
-    techs: [
-      { id: 12, name: "React" },
-      { id: 13, name: "Tailwind" },
-    ],
+    stack: ["React", "Tailwind"],
   },
   {
     id: 3,
     name: "Milacurous",
     image: milacurous,
-    techs: [
-      { id: 14, name: "Mongo" },
-      { id: 15, name: "Express Js" },
-      { id: 16, name: "React" },
-      { id: 17, name: "Tailwind" },
-    ],
+    stack: ["Mongo", "Express Js", "React", "Tailwind"],
   },
   {
     id: 4,
     name: "Spotify clone",
     image: spotify,
-    techs: [
-      { id: 18, name: "Mongo" },
-      { id: 19, name: "Express Js" },
-      { id: 20, name: "React" },
-      { id: 21, name: "Tailwind" },
-    ],
+    stack: ["Mongo", "Express Js", "React", "Tailwind"],
   },
   {
     id: 5,
     name: "E-Tutor",
     image: Etutor,
-    techs: [
-      { id: 22, name: "React" },
-      { id: 23, name: "Tailwind" },
-    ],
+    stack: ["React", "Tailwind"],
   },
   {
     id: 6,
     name: "Tours",
     image: ReadMore,
-    techs: [
-      { id: 24, name: "React" },
-      { id: 25, name: "Tailwind" },
-    ],
+    stack: ["React", "Tailwind"],
   },
 ];
 

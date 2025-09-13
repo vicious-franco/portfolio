@@ -2,23 +2,43 @@ import React, { useState } from "react";
 import { projects } from "../assets/data";
 import { motion } from "framer-motion";
 import { slideInFromLeft } from "../utilis/motion";
+import {
+  ExternalLink,
+  Github,
+  Code,
+  Calendar,
+  ArrowRight,
+  Star,
+  Eye,
+} from "lucide-react";
 
 const Project = () => {
   const [desc, setDesc] = useState({});
   const [showToolTip, setshowToolTip] = useState({});
   const [learnMore, setLearnMore] = useState(false);
+  const [filterStack, setFilterStack] = useState({ 1: true });
+
+  const projectFilters = [
+    { id: 1, label: "All" },
+    { id: 2, label: "Featured" },
+    { id: 3, label: "React" },
+    { id: 4, label: "Node js" },
+    { id: 5, label: "Mongo DB" },
+    { id: 6, label: "Socket Io" },
+    { id: 7, label: "Full stack" },
+  ];
 
   let allProject = 0;
   let projectLimit = 3;
 
-  const handleToolTip = (id) => {
-    const alreadyVisible = !!showToolTip[id];
-    setshowToolTip((prev) => {
-      return { ...prev, [id]: !alreadyVisible };
-    });
-    console.log(showToolTip);
-  };
+  const filterByStack = (id) => {
+    const alreadyClicked = !!filterStack[id];
 
+    return setFilterStack((prev) => {
+      return { [id]: !alreadyClicked };
+    });
+  };
+  console.log(filterStack);
   return (
     <section id="projects" className="mb-10 overflow-hidden">
       <motion.h2
@@ -44,11 +64,26 @@ const Project = () => {
           }}
           className=" mt-5 text-start text-lg md:mx-auto md:mt-10 md:text-center text-gray-400 text-md max-w-4xl  mb-10"
         >
-          Here are some of the projects I’ve been working on recently. These
-          reflect my growing skills in frontend and backend development using
-          tools like HTML, CSS, JavaScript, React, Node.js, and Tailwind CSS.
-          I’m always building and learning, so stay tuned for more!
+          Explore my journey through code. Each project represents a unique
+          challenge, innovative solution, and a step forward in my development
+          journey.
         </motion.p>
+      </div>
+      {/* filters */}
+      <div className="flex flex-wrap gap-2 2md:gap-6 justify-center mb-20">
+        {projectFilters.map((item) => (
+          <span
+            onClick={() => filterByStack(item.id)}
+            key={item.id}
+            className={`${
+              filterStack[item.id]
+                ? "bg-green-600  shadow-green-600 hover:shadow-sm text-white "
+                : ""
+            }text-nowrap cursor-pointer duration-600  rounded-full border border-green-600/30 bg-gray-700/20 text-gray-400 capitalize py-2 px-6`}
+          >
+            {item.label}
+          </span>
+        ))}
       </div>
       {/* project description */}
       <motion.div
@@ -59,20 +94,29 @@ const Project = () => {
           type: "tween",
           delay: 0.6,
         }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4 lg:gap-8 backdrop-blur-3xl "
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-4 lg:gap-8 backdrop-blur-3xl "
       >
         {projects
           .slice(allProject, learnMore ? projects.length : projectLimit)
           .map((item) => {
             return (
-              <div key={item.id} className="pl-3">
+              <div
+                key={item.id}
+                className="shadow-inner shadow-green-600 rounded-md overflow-hidden"
+              >
                 <div
                   onMouseEnter={() => setDesc({ [item.id]: true })}
                   onMouseLeave={() => setDesc({ [item.id]: false })}
                   className="border relative overflow-hidden h-[280px] w-full  md:h-[280px] md:min-w-[300px] lg:min-w-[200px] border-[#02a94c]/30   group hover:-translate-[2px] duration-300 ease-in-out"
                 >
+                  <p className="z-100  absolute top-0 right-0 m-4 text-sm text-green-400  bg-green-500/20 inline-block px-2 rounded-full border border-green-400/50">
+                    Live
+                  </p>
+                  <p className="z-100 flex itemx-center gap-3 absolute top-0 left-0 m-4 text-sm text-green-400  bg-green-500/20  px-2 rounded-full border border-green-400/50">
+                    <Star className="w-4" /> Featured
+                  </p>
                   <img
-                    className="w-full h-full object-fit brightness-80 hover:brightness-95 group-hover:brightness-90 duration-500 ease-in-out transition-all "
+                    className="w-full  rounded-md  h-full object-cover brightness-50 hover:brightness-95 group-hover:brightness-90 duration-500 ease-in-out transition-all "
                     src={item.image}
                     alt=""
                   />
@@ -95,25 +139,47 @@ const Project = () => {
                     </motion.div>
                   )}
                 </div>
-                <div className="w-full  font-semibold flex gap-3 justify-between  text-gray-300 mt-3">
-                  <h1 className=" uppercase ">{item.name}</h1>
-                  <div className="w-[60%] flex justify-end">
-                    {item.techs.map((tech, index) => (
-                      <div className="relative" key={index + 1}>
-                        <span
-                          onMouseEnter={() => handleToolTip(tech.id)}
-                          onMouseLeave={() => handleToolTip(tech.id)}
-                          className="mr-4  border border-[#02a94c]/30  px-2 py-1 text-sm bg-[#4bd3a835] rounded-lg text-gray-300"
-                        >
-                          {tech.name.slice(0, 1)}
+                <div className="p-3">
+                  <div className="w-full space-y-2 font-semibold text-gray-300 ">
+                    <h1 className=" uppercase mt-2 ">E-commerce platform</h1>
+                    <p className="text-sm font-medium text-gray-400">
+                      A full-stack e-commerce solution built with React and
+                      Node.js, featuring real-time inventory management, secure
+                      payment processing, and an intuitive admin dashboard.
+                    </p>
+                  </div>
+                  <div className="flex gap-3 mt-3">
+                    {item.stack.map((tech) => {
+                      return (
+                        <span className="rounded-full text-gray-300 text-sm bg-gray-600/30 backdrop-blur-md border border-green-500/20 px-2 py-0.5">
+                          {tech}
                         </span>
-                        {showToolTip[tech.id] && (
-                          <span className="absolute text-nowrap -bottom-9 bg-black/80 px-3 rounded-lg right-1 z-20">
-                            {tech.name}
-                          </span>
-                        )}{" "}
+                      );
+                    })}
+                  </div>
+                  <div className="flex justify-between text-gray-200 mt-4">
+                    <div className=" flex gap-4 text-sm text-gray-400">
+                      <div className="flex gap-2 items-center">
+                        <Eye className="w-5 h-4" />
+                        <p>1024</p>
                       </div>
-                    ))}
+                      <div className="flex gap-2 items-center">
+                        <Star className="w-5 h-4" />
+                        <p>24</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 items-center text-gray-400">
+                      <Calendar className="w-5 h-4" />
+                      <span>2025</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between gap-12 my-6 cursor-pointer ">
+                    <button className="w-full cursor-pointer  flex items-center justify-center gap-2 py-2 bg-green-600 duration-400 hover:bg-green-500 text-white rounded-lg ">
+                      <ExternalLink className="w-5 h-4" /> View Live
+                    </button>
+                    <button className="w-full  cursor-pointer flex justify-center items-center gap-2 py-2 bg-[#242e3e] duration-400 hover:bg-gray-700 rounded-lg text-white">
+                      <Github className="w-5 h-4" /> Code
+                    </button>
                   </div>
                 </div>
               </div>

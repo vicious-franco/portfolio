@@ -114,7 +114,7 @@ const HeroContent = () => {
       <div className="hidden  overflow-hidden ml-5 lg:ml-15 sm:flex justify-end items-center flex-col gap-10 w-10 h-[80vh] text-gray-300 fixed left-0 bottom-16 ">
         <div className="flex flex-col justify-center items-center gap-4 h-full ">
           <span className="text-nowrap mt-6 -rotate-90 mb-8 text-md font-semibold capitalize">
-            atlat dev
+            atlas dev
           </span>
           <hr color="#c7cbd3" className="w-[1.8px] h-20 " />
 
