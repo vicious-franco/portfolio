@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { projects } from "../assets/data";
+import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { slideInFromLeft } from "../utilis/motion";
 import {
@@ -11,12 +10,17 @@ import {
   Star,
   Eye,
 } from "lucide-react";
+import { GlobalContext } from "../GlobalContext/GlobalContext";
+import { projects } from "../assets/data";
 
 const Project = () => {
   const [desc, setDesc] = useState({});
-  const [showToolTip, setshowToolTip] = useState({});
+  // const [showToolTip, setshowToolTip] = useState({});
   const [learnMore, setLearnMore] = useState(false);
   const [filterStack, setFilterStack] = useState({ 1: true });
+  const { allProjects, setAllProjects } = useContext(GlobalContext);
+  const [projectsRender, setProjectsRender] = useState(allProjects);
+  // console.log(allProjects);
 
   const projectFilters = [
     { id: 1, label: "All" },
@@ -27,18 +31,30 @@ const Project = () => {
     { id: 6, label: "Socket Io" },
     { id: 7, label: "Full stack" },
   ];
-
-  let allProject = 0;
-  let projectLimit = 3;
-
   const filterByStack = (id) => {
     const alreadyClicked = !!filterStack[id];
 
-    return setFilterStack((prev) => {
+    return setFilterStack(() => {
       return { [id]: !alreadyClicked };
     });
   };
-  console.log(filterStack);
+
+  const filterProjects = (e) => {
+    if (e.target.textContent !== "All") {
+      const renderProject = allProjects.filter((proj) =>
+        proj.stack.some(
+          (item) => item.toLowerCase() === e.target.textContent.toLowerCase()
+        )
+      );
+      setProjectsRender(renderProject);
+    } else {
+      setProjectsRender(allProjects);
+    }
+  };
+
+  let allProject = 0;
+  let projectLimit = 4;
+
   return (
     <section id="projects" className="mb-10 overflow-hidden">
       <motion.h2
@@ -73,7 +89,10 @@ const Project = () => {
       <div className="flex flex-wrap gap-2 2md:gap-6 justify-center mb-20">
         {projectFilters.map((item) => (
           <span
-            onClick={() => filterByStack(item.id)}
+            onClick={(e) => {
+              filterByStack(item.id);
+              filterProjects(e);
+            }}
             key={item.id}
             className={`${
               filterStack[item.id]
@@ -86,115 +105,128 @@ const Project = () => {
         ))}
       </div>
       {/* project description */}
-      <motion.div
-        initial={{ opacity: 0, x: -200 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        transition={{
-          duration: 0.6,
-          type: "tween",
-          delay: 0.6,
-        }}
-        className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-4 lg:gap-8 backdrop-blur-3xl "
-      >
-        {projects
-          .slice(allProject, learnMore ? projects.length : projectLimit)
-          .map((item) => {
-            return (
-              <div
-                key={item.id}
-                className="shadow-inner shadow-green-600 rounded-md overflow-hidden"
-              >
-                <div
-                  onMouseEnter={() => setDesc({ [item.id]: true })}
-                  onMouseLeave={() => setDesc({ [item.id]: false })}
-                  className="border relative overflow-hidden h-[280px] w-full  md:h-[280px] md:min-w-[300px] lg:min-w-[200px] border-[#02a94c]/30   group hover:-translate-[2px] duration-300 ease-in-out"
-                >
-                  <p className="z-100  absolute top-0 right-0 m-4 text-sm text-green-400  bg-green-500/20 inline-block px-2 rounded-full border border-green-400/50">
-                    Live
-                  </p>
-                  <p className="z-100 flex itemx-center gap-3 absolute top-0 left-0 m-4 text-sm text-green-400  bg-green-500/20  px-2 rounded-full border border-green-400/50">
-                    <Star className="w-4" /> Featured
-                  </p>
-                  <img
-                    className="w-full  rounded-md  h-full object-cover brightness-50 hover:brightness-95 group-hover:brightness-90 duration-500 ease-in-out transition-all "
-                    src={item.image}
-                    alt=""
-                  />
-                  {/* description */}
-                  {desc[item.id] && (
-                    <motion.div
-                      initial={{ opacity: 0, x: 200 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{
-                        duration: 0.2,
-                        type: "tween",
-                        ease: "easeInOut",
-                      }}
-                      exit={{ opacity: 0, x: 200 }}
-                      className="absolute z-10 top-0 left-0 bg-gradient-to-t from-[#0f192d] to-[#44c49c8a] border border-[#02a94c] flex flex-col justify-center items-center backdrop-blur-md h-full w-full"
-                    >
-                      <button className=" rounded-sm hover:bg-[#0f192d] cursor-pointer border border-[#4ad3a8] px-5 py-2  text-white uppercase text-md font-semibold ">
-                        Live Demo
-                      </button>
-                    </motion.div>
-                  )}
-                </div>
-                <div className="p-3">
-                  <div className="w-full space-y-2 font-semibold text-gray-300 ">
-                    <h1 className=" uppercase mt-2 ">E-commerce platform</h1>
-                    <p className="text-sm font-medium text-gray-400">
-                      A full-stack e-commerce solution built with React and
-                      Node.js, featuring real-time inventory management, secure
-                      payment processing, and an intuitive admin dashboard.
-                    </p>
-                  </div>
-                  <div className="flex gap-3 mt-3">
-                    {item.stack.map((tech) => {
-                      return (
-                        <span className="rounded-full text-gray-300 text-sm bg-gray-600/30 backdrop-blur-md border border-green-500/20 px-2 py-0.5">
-                          {tech}
-                        </span>
-                      );
-                    })}
-                  </div>
-                  <div className="flex justify-between text-gray-200 mt-4">
-                    <div className=" flex gap-4 text-sm text-gray-400">
-                      <div className="flex gap-2 items-center">
-                        <Eye className="w-5 h-4" />
-                        <p>1024</p>
-                      </div>
-                      <div className="flex gap-2 items-center">
-                        <Star className="w-5 h-4" />
-                        <p>24</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2 items-center text-gray-400">
-                      <Calendar className="w-5 h-4" />
-                      <span>2025</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between gap-12 my-6 cursor-pointer ">
-                    <button className="w-full cursor-pointer  flex items-center justify-center gap-2 py-2 bg-green-600 duration-400 hover:bg-green-500 text-white rounded-lg ">
-                      <ExternalLink className="w-5 h-4" /> View Live
-                    </button>
-                    <button className="w-full  cursor-pointer flex justify-center items-center gap-2 py-2 bg-[#242e3e] duration-400 hover:bg-gray-700 rounded-lg text-white">
-                      <Github className="w-5 h-4" /> Code
-                    </button>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-      </motion.div>
-      <div className="flex justify-center mt-10">
-        <motion.a
-          onClick={() => setLearnMore((prev) => !prev)}
-          variants={slideInFromLeft(1)}
-          className="py-2 px-4 border-[#02a94c] border  text-[#02a94c] hover:bg-[#02a94c] font-semibold text-center hover:-translate-1.5 hover:scale-105 transition-color duration-300 hover:text-white cursor-pointer rounded-sm max-w-[200px]"
+      {projectsRender.length > 0 ? (
+        <motion.div
+          initial={{ opacity: 0, x: -200 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{
+            duration: 0.6,
+            type: "tween",
+            delay: 0.6,
+          }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-4 lg:gap-8 backdrop-blur-3xl "
         >
-          {learnMore ? "Show Less" : "Learn More!"}
-        </motion.a>
-      </div>
+          {projectsRender
+
+            .slice(allProject, learnMore ? projectsRender.length : projectLimit)
+            .map((item) => {
+              return (
+                <div
+                  key={item.id}
+                  className="shadow-inner shadow-green-600 rounded-md overflow-hidden"
+                >
+                  <div
+                    onMouseEnter={() => setDesc({ [item.id]: true })}
+                    onMouseLeave={() => setDesc({ [item.id]: false })}
+                    className="border relative overflow-hidden h-[280px] w-full  md:h-[280px] md:min-w-[300px] lg:min-w-[200px] border-[#02a94c]/30   group hover:-translate-[2px] duration-300 ease-in-out"
+                  >
+                    <p className="z-100  absolute top-0 right-0 m-4 text-sm text-green-400  bg-green-500/20 inline-block px-2 rounded-full border border-green-400/50">
+                      Live
+                    </p>
+                    <p className="z-100 flex itemx-center gap-3 absolute top-0 left-0 m-4 text-sm text-green-400  bg-green-500/20  px-2 rounded-full border border-green-400/50">
+                      <Star className="w-4" /> Featured
+                    </p>
+                    <img
+                      className="w-full  rounded-md  h-full object-cover brightness-50 hover:brightness-95 group-hover:brightness-90 duration-500 ease-in-out transition-all "
+                      src={item.image}
+                      alt=""
+                    />
+                    {/* description */}
+                    {desc[item.id] && (
+                      <motion.div
+                        initial={{ opacity: 0, x: 200 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{
+                          duration: 0.2,
+                          type: "tween",
+                          ease: "easeInOut",
+                        }}
+                        exit={{ opacity: 0, x: 200 }}
+                        className="absolute z-10 top-0 left-0 bg-gradient-to-t from-[#0f192d] to-[#44c49c8a] border border-[#02a94c] flex flex-col justify-center items-center backdrop-blur-md h-full w-full"
+                      >
+                        <button className=" rounded-sm hover:bg-[#0f192d] cursor-pointer border border-[#4ad3a8] px-5 py-2  text-white uppercase text-md font-semibold ">
+                          Live Demo
+                        </button>
+                      </motion.div>
+                    )}
+                  </div>
+                  <div className="p-3">
+                    <div className="w-full space-y-2 font-semibold text-gray-300 ">
+                      <h1 className=" uppercase mt-2 ">E-commerce platform</h1>
+                      <p className="text-sm font-medium text-gray-400">
+                        A full-stack e-commerce solution built with React and
+                        Node.js, featuring real-time inventory management,
+                        secure payment processing, and an intuitive admin
+                        dashboard.
+                      </p>
+                    </div>
+                    <div className="flex gap-3 mt-3">
+                      {item.stack.map((tech) => {
+                        return (
+                          <span className="rounded-full text-gray-300 text-sm bg-gray-600/30 backdrop-blur-md border border-green-500/20 px-2 py-0.5">
+                            {tech}
+                          </span>
+                        );
+                      })}
+                    </div>
+                    <div className="flex justify-between text-gray-200 mt-4">
+                      <div className=" flex gap-4 text-sm text-gray-400">
+                        <div className="flex gap-2 items-center">
+                          <Eye className="w-5 h-4" />
+                          <p>1024</p>
+                        </div>
+                        <div className="flex gap-2 items-center">
+                          <Star className="w-5 h-4" />
+                          <p>24</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-2 items-center text-gray-400">
+                        <Calendar className="w-5 h-4" />
+                        <span>2025</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between gap-12 my-6 cursor-pointer ">
+                      <button className="w-full cursor-pointer  flex items-center justify-center gap-2 py-2 bg-green-600 duration-400 hover:bg-green-500 text-white rounded-lg ">
+                        <ExternalLink className="w-5 h-4" /> View Live
+                      </button>
+                      <button className="w-full  cursor-pointer flex justify-center items-center gap-2 py-2 bg-[#242e3e] duration-400 hover:bg-gray-700 rounded-lg text-white">
+                        <Github className="w-5 h-4" /> Code
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+        </motion.div>
+      ) : (
+        <div className="flex flex-col items-center">
+          <div className="inline-block animate-bounce duration-600 transition-all">
+            <img className="w-40 sm:w-50" src="/empty.png" alt="" />
+          </div>
+          <p className="text-gray-400 ">Projects not available</p>
+        </div>
+      )}
+      {projectsRender > 0 && (
+        <div className="flex justify-center mt-10">
+          <motion.a
+            onClick={() => setLearnMore((prev) => !prev)}
+            variants={slideInFromLeft(1)}
+            className="py-2 px-4 border-[#02a94c] border  text-[#02a94c] hover:bg-[#02a94c] font-semibold text-center hover:-translate-1.5 hover:scale-105 transition-color duration-300 hover:text-white cursor-pointer rounded-sm max-w-[200px]"
+          >
+            {learnMore ? "Show Less" : "Learn More!"}
+          </motion.a>
+        </div>
+      )}
     </section>
   );
 };

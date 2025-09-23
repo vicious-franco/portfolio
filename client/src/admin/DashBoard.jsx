@@ -56,10 +56,10 @@ const DashBoard = () => {
   ]);
 
   return (
-    <section className="relative h-full w-screen">
+    <section className="relative min-h-screen  w-screen">
       <div className="px-4 md:px-25">
-        <nav className="text-white flex items-center justify-between pt pb-3 py-10 border-b border-gray-400/20">
-          <h1 className="text-gray-200 font-bold text-lg md:text-2xl uppercase ">
+        <nav className="text-white flex items-center justify-between pt pb-3 py-10 border-b border-green-400/40">
+          <h1 className="text-whtite/90 font-bold text-lg md:text-2xl uppercase ">
             Portfolio Admin
           </h1>{" "}
           <button
@@ -72,7 +72,7 @@ const DashBoard = () => {
         </nav>
         {/* project options */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-          <div className="bg-gray-800/50 p-6 text-white backdrop-blur-sm rounded-md border border-white/20">
+          <div className="bg-green-800/30 p-6 text-white backdrop-blur-sm rounded-md border border-white/20">
             <div className="flex items-center gap-3">
               <div className="bg-green-500 w-fit p-4 rounded-lg">
                 <Code />
@@ -83,7 +83,7 @@ const DashBoard = () => {
               </div>
             </div>
           </div>
-          <div className="bg-gray-800/50 p-6 text-white backdrop-blur-sm rounded-md border border-white/20">
+          <div className="bg-green-800/30 p-6 text-white backdrop-blur-sm rounded-md border border-white/20">
             <div className="flex items-center gap-3">
               <div className="bg-orange-500 w-fit p-4 rounded-lg">
                 <Edit3 />
@@ -94,7 +94,7 @@ const DashBoard = () => {
               </div>
             </div>
           </div>
-          <div className="bg-gray-800/50 p-6 text-white backdrop-blur-sm rounded-md border border-white/20">
+          <div className="bg-green-800/30 p-6 text-white backdrop-blur-sm rounded-md border border-white/20">
             <div className="flex items-center gap-3">
               <div className="bg-blue-500 w-fit p-4 rounded-lg">
                 <Globe />
@@ -105,7 +105,7 @@ const DashBoard = () => {
               </div>
             </div>
           </div>
-          <div className="bg-gray-800/50 p-6 text-white backdrop-blur-sm rounded-md border border-white/20">
+          <div className="bg-green-800/30 p-6 text-white backdrop-blur-sm rounded-md border border-white/20">
             <div className="flex items-center gap-3">
               <div className="bg-violet-500 w-fit p-4 rounded-lg">
                 <Tag />
@@ -120,7 +120,7 @@ const DashBoard = () => {
         <div>
           {/* search  and filter*/}
           <div className="flex flex-col sm:flex-row  justify-between items-center my-15">
-            <div className="flex-1 w-full sm:max-w-[43vw] relative border-white/30 shadow-inner h-12 py-0.5 border   rounded-md bg-gray-900/90 backdrop-blur-sm">
+            <div className="flex-1 w-full sm:max-w-[43vw] relative border-green-500/30 shadow-inner h-12 py-0.5 border   rounded-md bg-green-900/15 backdrop-blur-sm">
               <Search className="absolute top-2 left-3 text-gray-400" />
               <input
                 type="text"
@@ -131,36 +131,36 @@ const DashBoard = () => {
             <div className="self-end mt-5 sm:mt-0 sm:self-auto flex items-center gap-2 ml-12">
               <Filter className=" text-gray-300" />
               <div>
-                <div className=" border-white/30 shadow-inner h-10 py-0.5 border inline-block  rounded-md bg-gray-900/50 backdrop-blur-sm">
+                <div className=" border-green-500/30 shadow-inner h-10 py-0.5 border inline-block  rounded-md bg-green-900/15 backdrop-blur-sm">
                   <select
                     placeholder="Seach Projects..."
-                    className="w-full h-full  text-white pl-4 border-none outline-none bg-gray-800/50 capitalize"
+                    className="w-full h-full  text-white pl-4 border-none outline-none bg-green-800/15 capitalize"
                   >
                     <option
-                      className="bg-gray-800 p-2 text-sm sm:text-lg "
+                      className="bg-green-950/90 p-2 text-sm sm:text-lg "
                       value="all"
                     >
                       All
                     </option>
-                    <option className="bg-gray-800 p-2 " value="react">
+                    <option className="bg-green-950/90 p-2 " value="react">
                       react
                     </option>
-                    <option className="bg-gray-800 p-2 " value="react-native">
+                    <option className="bg-green-950/90 p-2 " value="react-native">
                       react-native
                     </option>
-                    <option className="bg-gray-800 p-2 " value="next js">
+                    <option className="bg-green-950/90 p-2 " value="next js">
                       next js
                     </option>
-                    <option className="bg-gray-800 p-2 " value="node js">
+                    <option className="bg-green-950/90 p-2 " value="node js">
                       node js
                     </option>
-                    <option className="bg-gray-800 p-2 " value="mongo db">
+                    <option className="bg-green-950/90 p-2 " value="mongo db">
                       mongo db
                     </option>
-                    <option className="bg-gray-800 p-2 " value="python">
+                    <option className="bg-green-950/90 p-2 " value="python">
                       python
                     </option>
-                    <option className="bg-gray-800 p-2 " value="php">
+                    <option className="bg-green-950/90 p-2 " value="php">
                       php
                     </option>
                   </select>

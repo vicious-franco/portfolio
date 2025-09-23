@@ -5,9 +5,9 @@ import {
 import express from "express";
 import uploads from "../middleware/multer.js";
 
-const Router = express.Router();
+const ProjectRouter = express.Router();
 
-Router.post("/projects", uploads.single("image"), createProjects);
-Router.get("/projects", getProjects);
+ProjectRouter.post("/projects", uploads.single("image"), createProjects);
+ProjectRouter.get("/projects", getProjects);
 
-export default Router;
+export default ProjectRouter;

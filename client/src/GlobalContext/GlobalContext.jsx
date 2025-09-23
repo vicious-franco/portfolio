@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
+import { projects } from "../assets/data.js";
 
 export const GlobalContext = createContext();
 
@@ -7,6 +8,9 @@ const ContextProvider = ({ children }) => {
   const [showMenu, setShowMenu] = useState(true);
   const [showToast, setShowToast] = useState(false);
   const [toastInfo, setToastInfo] = useState({});
+  const [allProjects, setAllProjects] = useState(projects);
+
+
 
   const lastScrollY = useRef(0);
 
@@ -36,6 +40,8 @@ const ContextProvider = ({ children }) => {
     setShowToast,
     toastInfo,
     setToastInfo,
+    allProjects,
+    setAllProjects,
   };
 
   return (

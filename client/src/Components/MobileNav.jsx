@@ -20,7 +20,7 @@ const MobileNav = () => {
       initial={{ opacity: 0.8, x: 200 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0.8, x: 200 }}
-      className="lg:hidden h-screen border  border-[#02a94c]/30 rounded-sm shadow-white/20 shadow-sm flex flex-col justify-between max-w-[20em] absolute top-0 bg-[#0f192d]/60 z-30 right-0 backdrop-blur-sm "
+      className="lg:hidden h-screen border  border-[#02a94c]/30 rounded-sm shadow-white/20 shadow-sm flex flex-col justify-between max-w-[20em] fixed top-0 bg-[#001012]/60 z-30 right-0 backdrop-blur-sm "
     >
       <div className="flex flex-col gap-3 ">
         <span

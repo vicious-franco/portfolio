@@ -19,7 +19,7 @@ const AboutMe = () => {
       </motion.h2>
       <hr className="w-35 m-[18px_auto] border-t-2 border-[#02a94c]/50" />
 
-      <div className="w-full  flex md:flex-row flex-col-reverse mx-auto my-10 p-10 backdrop-blur-5xl rounded-xl border duration-300 hover:shadow-[8px_12px_12px_#02a94c]  border-[#02a94c]/20 shadow-md shadow-white/10  text-gray-300 ">
+      <div className="w-full  bg-[#02a94c]/6  flex md:flex-row flex-col-reverse mx-auto my-10 p-10 backdrop-blur-5xl rounded-xl border duration-300  hover:shadow-[0px_3px_12px_#02a94c] hover:-translate-[2px] ease-in-out  border-[#02a94c]/40 shadow-md shadow-white/10  text-gray-300 ">
         <motion.div
           initial={{ opacity: 0, x: -100 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -52,8 +52,7 @@ const AboutMe = () => {
                 HTML, CSS, JavaScript, React, Node.js, Express,
               </span>{" "}
               and{" "}
-              <span className="text-[#02a94c] font-medium">Tailwind CSS</span>
-              .
+              <span className="text-[#02a94c] font-medium">Tailwind CSS</span>.
             </motion.p>
             <motion.p
               initial={{ opacity: 0, x: 100 }}

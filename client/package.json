@@ -13,7 +13,7 @@
     "@emailjs/browser": "^4.4.1",
     "@splinetool/react-spline": "^4.1.0",
     "@tailwindcss/vite": "^4.1.10",
-    "axios": "^1.10.0",
+    "axios": "^1.12.1",
     "framer-motion": "^12.19.1",
     "lucide-react": "^0.544.0",
     "react": "^19.1.0",

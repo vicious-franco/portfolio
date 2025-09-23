@@ -47,7 +47,7 @@ const Skills = () => {
             <SwiperSlide key={index + 1}>
               <div
                 style={{ color: item.color }}
-                className="text-white w-[70vw] m-auto hover:shadow-[1px_1px_10px_#02a94c] cursor-pointer flex border border-[#02a94c] flex-col items-center backdrop-blur-3xl bg-gradient-to-b from-50% to-[#4bd3a856] rounded-md sm:w-[12em] py-3"
+                className="text-white w-[70vw] m-auto hover:shadow-[1px_1px_10px_#02a94c] cursor-pointer flex border border-[#02a94c] flex-col items-center backdrop-blur-3xl bg-gradient-to-b from-50% to-[#02a94c]/30 rounded-md sm:w-[12em] py-3"
               >
                 <span className="text-5xl mb-3">
                   <item.Icon />
@@ -75,7 +75,7 @@ const Skills = () => {
             initial={{ opacity: 0, scale: 0.4 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, ease: easeInOut, type: "tween" }}
-            className="border-[#02a94c]/60  backdrop-blur-3xl h-full hover:-translate-[2px] ease-in-out hover:shadow-[0px_3px_12px_#02a94c] duration-500 border p-3 rounded-md flex flex-col justify-center"
+            className="border-[#02a94c]/60 bg-[#02a94c]/6  backdrop-blur-3xl h-full hover:-translate-[2px] ease-in-out hover:shadow-[0px_3px_12px_#02a94c] duration-500 border p-3 rounded-md flex flex-col justify-center"
           >
             {frontEndSkills.map((item, index) => {
               return (
@@ -97,7 +97,7 @@ const Skills = () => {
         </div>
 
         {/* backend */}
-        <div className="space-y-10  mt-14 md:mt-0">
+        <div className="space-y-10  mt-14 md:mt-0 ">
           <motion.h1
             className="text-gray-300 mb-6 text-center uppercase font-bold text-xl"
             initial={{ opacity: 0, x: -200 }}
@@ -115,7 +115,7 @@ const Skills = () => {
               type: "tween",
               delay: 0.4,
             }}
-            className="border-[#02a94c]/60 backdrop-blur-3xl hover:shadow-[1px_1px_10px_#02a94c] duration-500 ease-in-out hover:-translate-1.5  h-full border p-3 rounded-md flex flex-col justify-start pt-12"
+            className="border-[#02a94c]/60 bg-[#02a94c]/6 backdrop-blur-3xl hover:shadow-[1px_1px_10px_#02a94c] duration-500 ease-in-out hover:-translate-1.5  h-full border p-3 rounded-md flex flex-col justify-start pt-12"
           >
             {BackendSkills.map((item, index) => {
               return (
