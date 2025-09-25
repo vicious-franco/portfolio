@@ -36,14 +36,14 @@ export const login = async (req, res) => {
   }
 
   const token = jwt.sign({ id: updatedAdmin._id }, process.env.SECRET_KEY, {
-    expiresIn: "1h",
+    expiresIn: "24h",
   });
 
-  res.cookie("token", token, {
+  res.cookie("login_token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV !== "development",
     sameSite: process.env.NODE_ENV === "development" ? "lax" : "strict",
-    maxAge: 60 * 60 * 1000,
+    maxAge: 24 * 60 * 60 * 1000,
   });
 
   res.status(200).json({
@@ -51,4 +51,17 @@ export const login = async (req, res) => {
     message: "login successfully",
     data: updatedAdmin,
   });
+};
+
+export const userData = async (req, res) => {
+  const { userId } = req;
+
+  try {
+    const user = await AdminModel.find({ _id: userId });
+    if (user) {
+      req.userData = {};
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
