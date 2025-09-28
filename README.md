@@ -39,9 +39,6 @@ This project demonstrates my ability to build responsive, interactive, and maint
 ### Admin Dashboard
 ![Admin Dashboard Screenshot](client/screenshots/admin-dashboard.png)
 
-
-*(Place screenshots in `/screenshots` folder in your repo.)*
-
 ---
 
 ## 🚀 Installation & Setup
