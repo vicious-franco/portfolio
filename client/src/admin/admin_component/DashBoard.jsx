@@ -11,17 +11,22 @@ import {
   Globe,
   Github,
   ExternalLink,
+  LogOut,
+  FolderPen,
   Calendar,
   Tag,
   Trash,
+  Phone,
 } from "lucide-react";
 import NewProject from "./NewProject";
 import { AdminContextAuth } from "../adminContext/AdminContext";
+import { useNavigate } from "react-router-dom";
 
 const DashBoard = () => {
   const [addProject, setaddProject] = useState(false);
-
-  const { userData } = useContext(AdminContextAuth);
+  const [showProfile, setShowProfile] = useState(false);
+  const { userData, baseUrl } = useContext(AdminContextAuth);
+  const navigate = useNavigate();
 
   const [projects, setProjects] = useState([
     {
@@ -58,28 +63,51 @@ const DashBoard = () => {
       createdAt: "2024-01-20",
     },
   ]);
-  console.log("loggin user data: " + userData);
+
+  const makeLogout = async () => {
+    try {
+      const res = await fetch(`${baseUrl}/api/portfolio/logout`, {
+        method: "post",
+        credentials: "include",
+      });
+      const info = await res.json();
+      if (info.success) {
+        console.log(info);
+        navigate("/auth/secret/admin-login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   let nameInitials = null;
   let name = null;
+  let lastName = null;
   if (userData) {
     name = userData?.fullName.split(" ");
+    lastName = name[name.length - 1];
     nameInitials = (
       name[0].charAt(0) + name[name.length - 1].charAt(0)
     ).toUpperCase();
   }
+  const handleLogout = () => {
+    setShowProfile((prev) => !prev);
+  };
   return (
     <section className="relative min-h-screen  w-screen">
       <div className="px-4 md:px-25">
-        <nav className="text-white flex items-center justify-between pt pb-3 py-10 border-b border-green-400/40">
-          <div className="flex flex-col items-center gap-2">
-            <span className="rounded-full p-1 bg-green-600/20 border border-green-500 h-12 w-12 flex items-center justify-center ">
+        <nav className="relative text-white flex items-center justify-between pt pb-3 py-10 border-b border-green-400/40">
+          <div className=" flex flex-col items-center gap-2 ">
+            <span
+              onClick={handleLogout}
+              className="cursor-pointer rounded-full p-1  bg-green-600/20 border border-green-500 h-12 w-12 flex items-center justify-center "
+            >
               <h1 className=" text-white font-semibold text-xl ">
                 {nameInitials}
               </h1>{" "}
             </span>
-            <h1 className="text-gray-100">{userData?.dev_name}</h1>
           </div>
+
           <button
             onClick={() => setaddProject(true)}
             className="flex items-center border-none outile-none hover:bg-green-500 cursor-pointer duration-400 bg-[#02a94c] rounded-lg gap-2 px-4 py-3 md:py-1.5"
@@ -87,6 +115,42 @@ const DashBoard = () => {
             <Plus className="w-5 h-5" />
             <h1 className="hidden sm:block"> Add a project</h1>
           </button>
+
+          {showProfile && (
+            <div
+              onMouseLeave={handleLogout}
+              className=" w-full sm:w-auto left-0 absolute  flex flex-col gap-2 text-sm xl:text-md text-gray-300 top-24 z-10 bg-[#001012] rounded-md p-4 py-5 border-2 border-green-500/30 "
+            >
+              <div>
+                <div className="flex font-semibold  gap-2 items-center border-b border-green-500/40 pb-3">
+                  <span className=" rounded-full p-1  bg-green-600/20 border border-green-500 h-10 w-10 flex items-center justify-center ">
+                    <h1 className=" text-white text-xl ">{nameInitials}</h1>{" "}
+                  </span>
+                  <div className="">
+                    <p className="">{userData?.email}</p>
+                    <p className="">{lastName}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center gap-1 pt-2">
+                <Phone className="w-4" />
+                <p className="">{userData?.phone_number}</p>
+              </div>
+
+              <div className="flex items-center gap-1 text-green-600 font-semibold">
+                <LogOut className="w-4" />
+                <p
+                  onClick={makeLogout}
+                  className="text-md cursor-pointer hover:text-green-500"
+                >
+                  Logout
+                </p>
+              </div>
+              <p className="uppercase text-center font-light">
+                {userData?.dev_name}
+              </p>
+            </div>
+          )}
         </nav>
         {/* project options */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">

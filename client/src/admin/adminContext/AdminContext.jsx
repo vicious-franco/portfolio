@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
     authenticateUser();
   }, []);
 
-  const data = { userData, isloggedin };
+  const data = { userData, isloggedin,baseUrl };
   return (
     <AdminContextAuth.Provider value={data}>
       {children}

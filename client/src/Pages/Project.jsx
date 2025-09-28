@@ -20,7 +20,7 @@ const Project = () => {
   const [filterStack, setFilterStack] = useState({ 1: true });
   const { allProjects, setAllProjects } = useContext(GlobalContext);
   const [projectsRender, setProjectsRender] = useState(allProjects);
-  // console.log(allProjects);
+  console.log(allProjects);
 
   const projectFilters = [
     { id: 1, label: "All" },
@@ -32,8 +32,6 @@ const Project = () => {
     { id: 7, label: "Full stack" },
   ];
   const filterByStack = (id) => {
-    const alreadyClicked = !!filterStack[id];
-
     return setFilterStack(() => {
       return { [id]: true };
     });

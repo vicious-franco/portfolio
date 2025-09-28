@@ -68,15 +68,14 @@ export const userData = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  res.clearCookie("login-token", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV !== "development",
-    sameSite: process.env.NODE_ENV === "development" ? "lax" : "strict",
+  res.clearCookie("login_token", {
     path: "/",
   });
   return res.status(200).json({ success: true, message: "logged out" });
 };
 
-export const test=async(req,res)=>{
-  return res.status(200).json({success:true,data:{name:"leon",age:21}})
-}
+export const test = async (req, res) => {
+  return res
+    .status(200)
+    .json({ success: true, data: { name: "leon", age: 21 } });
+};

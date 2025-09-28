@@ -1,4 +1,4 @@
-import ProjectModal from "../Model/model.js";
+import ProjectModal from "../Model/productModel.js";
 
 export const createProjects = async (req, res) => {
   const { projectName, description, imagePath, techs } = req.body;
