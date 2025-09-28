@@ -15,6 +15,6 @@ export const authenticateUser = async (req, res, next) => {
     }
     next();
   } catch (error) {
-    console.error("error fomr authenticateUser middleware: " + error);
+    console.error("error from authenticateUser middleware: " + error);
   }
 };

@@ -35,7 +35,7 @@ const Project = () => {
     const alreadyClicked = !!filterStack[id];
 
     return setFilterStack(() => {
-      return { [id]: !alreadyClicked };
+      return { [id]: true };
     });
   };
 

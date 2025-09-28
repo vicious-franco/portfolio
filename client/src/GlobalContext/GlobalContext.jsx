@@ -9,8 +9,7 @@ const ContextProvider = ({ children }) => {
   const [showToast, setShowToast] = useState(false);
   const [toastInfo, setToastInfo] = useState({});
   const [allProjects, setAllProjects] = useState(projects);
-
-
+  const [baseUrl, setbaseUrl] = useState(import.meta.env.VITE_BACKEND_URL);
 
   const lastScrollY = useRef(0);
 
@@ -42,6 +41,7 @@ const ContextProvider = ({ children }) => {
     setToastInfo,
     allProjects,
     setAllProjects,
+    baseUrl,
   };
 
   return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import {
   Plus,
@@ -16,9 +16,13 @@ import {
   Trash,
 } from "lucide-react";
 import NewProject from "./NewProject";
+import { AdminContextAuth } from "../adminContext/AdminContext";
 
 const DashBoard = () => {
   const [addProject, setaddProject] = useState(false);
+
+  const { userData } = useContext(AdminContextAuth);
+
   const [projects, setProjects] = useState([
     {
       id: 1,
@@ -54,14 +58,28 @@ const DashBoard = () => {
       createdAt: "2024-01-20",
     },
   ]);
+  console.log("loggin user data: " + userData);
 
+  let nameInitials = null;
+  let name = null;
+  if (userData) {
+    name = userData?.fullName.split(" ");
+    nameInitials = (
+      name[0].charAt(0) + name[name.length - 1].charAt(0)
+    ).toUpperCase();
+  }
   return (
     <section className="relative min-h-screen  w-screen">
       <div className="px-4 md:px-25">
         <nav className="text-white flex items-center justify-between pt pb-3 py-10 border-b border-green-400/40">
-          <h1 className="text-whtite/90 font-bold text-lg md:text-2xl uppercase ">
-            Portfolio Admin
-          </h1>{" "}
+          <div className="flex flex-col items-center gap-2">
+            <span className="rounded-full p-1 bg-green-600/20 border border-green-500 h-12 w-12 flex items-center justify-center ">
+              <h1 className=" text-white font-semibold text-xl ">
+                {nameInitials}
+              </h1>{" "}
+            </span>
+            <h1 className="text-gray-100">{userData?.dev_name}</h1>
+          </div>
           <button
             onClick={() => setaddProject(true)}
             className="flex items-center border-none outile-none hover:bg-green-500 cursor-pointer duration-400 bg-[#02a94c] rounded-lg gap-2 px-4 py-3 md:py-1.5"
@@ -145,7 +163,10 @@ const DashBoard = () => {
                     <option className="bg-green-950/90 p-2 " value="react">
                       react
                     </option>
-                    <option className="bg-green-950/90 p-2 " value="react-native">
+                    <option
+                      className="bg-green-950/90 p-2 "
+                      value="react-native"
+                    >
                       react-native
                     </option>
                     <option className="bg-green-950/90 p-2 " value="next js">
@@ -172,7 +193,10 @@ const DashBoard = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-4">
             {projects.map((item) => {
               return (
-                <div className="bg-gray-800/50 text-white backdrop-blur-sm rounded-md border border-white/20">
+                <div
+                  key={item.id}
+                  className="bg-gray-800/50 text-white backdrop-blur-sm rounded-md border border-white/20"
+                >
                   <div className="relative w-full bg-gradient-to-bl from-white/20 to-0 h-60">
                     <p className="absolute top-0 right-0 m-2 text-sm text-green-400  bg-green-500/20 inline-block px-2 rounded-full border border-green-400/50">
                       Live
@@ -191,9 +215,12 @@ const DashBoard = () => {
                       {item.description}
                     </p>
                     <div className="flex gap-3 mt-3">
-                      {item.stack.map((tech) => {
+                      {item.stack.map((tech, index) => {
                         return (
-                          <span className="rounded-md text-gray-300 text-sm bg-gray-600/30 backdrop-blur-md border border-white/20 px-2 py-0.5">
+                          <span
+                            key={index * 20}
+                            className="rounded-md text-gray-300 text-sm bg-gray-600/30 backdrop-blur-md border border-white/20 px-2 py-0.5"
+                          >
                             {tech}
                           </span>
                         );
