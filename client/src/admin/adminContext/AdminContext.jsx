@@ -30,11 +30,8 @@ export const AuthProvider = ({ children }) => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    authenticateUser();
-  }, []);
-
-  const data = { userData, isloggedin,baseUrl };
+ 
+  const data = { userData, isloggedin, baseUrl, authenticateUser };
   return (
     <AdminContextAuth.Provider value={data}>
       {children}

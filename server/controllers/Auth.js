@@ -9,7 +9,7 @@ export const login = async (req, res) => {
         .status(400)
         .json({ success: false, message: "all fields are required" });
     }
-
+    console.log(email);
     const userAdmin = await AdminModel.findOne({ email: email });
 
     if (!userAdmin) {

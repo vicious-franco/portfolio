@@ -1,13 +1,15 @@
 import React from "react";
-import { BsBoxArrowInRight } from "react-icons/bs";
 import { AiOutlineLogin } from "react-icons/ai";
 import { useContext } from "react";
 import { GlobalContext } from "../../GlobalContext/GlobalContext";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { AdminContextAuth } from "../adminContext/AdminContext";
 
 const Login = () => {
   const { baseUrl } = useContext(GlobalContext);
+  const { authenticateUser } = useContext(AdminContextAuth);
+
   const navigate = useNavigate();
   const [userCredentials, setUserCredentials] = useState({
     email: "",
@@ -26,9 +28,9 @@ const Login = () => {
       });
       const res = await req.json();
       if (res.success) {
-        console.log(res.success)
+        console.log(res.success);
+        await authenticateUser();
         navigate("/auth/secret/admin/dashboard");
-
       }
     } catch (error) {
       console.log(error.message);
