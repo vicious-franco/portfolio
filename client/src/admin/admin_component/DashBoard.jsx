@@ -21,6 +21,7 @@ import {
 import NewProject from "./NewProject";
 import { AdminContextAuth } from "../adminContext/AdminContext";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const DashBoard = () => {
   const [addProject, setaddProject] = useState(false);
@@ -28,41 +29,63 @@ const DashBoard = () => {
   const { userData, baseUrl } = useContext(AdminContextAuth);
   const navigate = useNavigate();
 
-  const [projects, setProjects] = useState([
-    {
-      id: 1,
-      title: "E-Commerce Platform",
-      description: "Full-stack e-commerce solution with React and Node.js",
-      stack: ["React", "Node.js", "MongoDB", "Stripe"],
-      status: "Live",
-      image: "/api/placeholder/300/200",
-      liveUrl: "https://example.com",
-      githubUrl: "https://github.com/user/project",
-      createdAt: "2024-03-15",
-    },
-    {
-      id: 2,
-      title: "AI Dashboard",
-      description: "Machine learning dashboard with real-time analytics",
-      stack: ["Next.js", "Python", "TensorFlow", "PostgreSQL"],
-      status: "Development",
-      image: "/api/placeholder/300/200",
-      liveUrl: "",
-      githubUrl: "https://github.com/user/ai-dashboard",
-      createdAt: "2024-02-10",
-    },
-    {
-      id: 3,
-      title: "Mobile App",
-      description: "Cross-platform mobile application using React Native",
-      stack: ["React Native", "Firebase", "Redux"],
-      status: "Live",
-      image: "/api/placeholder/300/200",
-      liveUrl: "https://app-store-link.com",
-      githubUrl: "",
-      createdAt: "2024-01-20",
-    },
-  ]);
+  // const [projects, setProjects] = useState([
+  //   {
+  //     id: 1,
+  //     title: "E-Commerce Platform",
+  //     description: "Full-stack e-commerce solution with React and Node.js",
+  //     stack: ["React", "Node.js", "MongoDB", "Stripe"],
+  //     status: "Live",
+  //     image: "/api/placeholder/300/200",
+  //     liveUrl: "https://example.com",
+  //     githubUrl: "https://github.com/user/project",
+  //     createdAt: "2024-03-15",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "AI Dashboard",
+  //     description: "Machine learning dashboard with real-time analytics",
+  //     stack: ["Next.js", "Python", "TensorFlow", "PostgreSQL"],
+  //     status: "Development",
+  //     image: "/api/placeholder/300/200",
+  //     liveUrl: "",
+  //     githubUrl: "https://github.com/user/ai-dashboard",
+  //     createdAt: "2024-02-10",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Mobile App",
+  //     description: "Cross-platform mobile application using React Native",
+  //     stack: ["React Native", "Firebase", "Redux"],
+  //     status: "Live",
+  //     image: "/api/placeholder/300/200",
+  //     liveUrl: "https://app-store-link.com",
+  //     githubUrl: "",
+  //     createdAt: "2024-01-20",
+  //   },
+  // ]);
+  const [projects, setProjects] = useState(null);
+
+  const getProjectData = async () => {
+    try {
+      const res = await fetch(`${baseUrl}/api/upload/projects`, {
+        method: "get",
+        headers: { "content-type": "application/json" },
+      });
+      if (!res.ok) {
+        throw new Error("failed to connect DB");
+      }
+      const data = await res.json();
+      if (data.success) {
+        setProjects(data.projects);
+      }
+    } catch (err) {
+      console.log("failed to fetchprojects: " + err);
+    }
+  };
+  useEffect(() => {
+    getProjectData();
+  }, []);
 
   const makeLogout = async () => {
     try {
@@ -255,16 +278,23 @@ const DashBoard = () => {
           </div>
           {/*  projects */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-4">
-            {projects.map((item) => {
+            {projects?.map((item) => {
+              console.log(item);
               return (
                 <div
-                  key={item.id}
+                  key={item._id}
                   className="bg-gray-800/50 text-white backdrop-blur-sm rounded-md border border-white/20"
                 >
                   <div className="relative w-full bg-gradient-to-bl from-white/20 to-0 h-60">
-                    <p className="absolute top-0 right-0 m-2 text-sm text-green-400  bg-green-500/20 inline-block px-2 rounded-full border border-green-400/50">
-                      Live
-                    </p>
+                    {item.isLive ? (
+                      <p className="absolute top-0 right-0 m-2 text-sm text-green-400  bg-green-500/20 inline-block px-2 rounded-full border border-green-400/50">
+                        Live
+                      </p>
+                    ) : (
+                      <p className="absolute top-0 right-0 m-2 text-sm text-orange-400  bg-[#ff6900]/20 inline-block px-2 rounded-full border border-orange-500/50">
+                        Dev
+                      </p>
+                    )}
                     {projects.image ? (
                       <img src={projects.image} alt="" />
                     ) : (
@@ -274,18 +304,18 @@ const DashBoard = () => {
                     )}
                   </div>
                   <div className="p-4">
-                    <h1 className="font-bold text-xl">{item.title}</h1>
+                    <h1 className="font-bold text-xl">{item.projectName}</h1>
                     <p className="text-sm text-gray-400 fonr-semibold my-3">
                       {item.description}
                     </p>
                     <div className="flex gap-3 mt-3">
-                      {item.stack.map((tech, index) => {
+                      {item.techs.map((tech, index) => {
                         return (
                           <span
                             key={index * 20}
                             className="rounded-md text-gray-300 text-sm bg-gray-600/30 backdrop-blur-md border border-white/20 px-2 py-0.5"
                           >
-                            {tech}
+                            {tech.name}
                           </span>
                         );
                       })}
@@ -295,7 +325,9 @@ const DashBoard = () => {
                         <span className="inline-block pr-3 ">
                           <Calendar className="w-5 " />
                         </span>
-                        <span className="inline-block">{item.createdAt}</span>
+                        <span className="inline-block">
+                          {new Date(item.createdAt).toDateString()}
+                        </span>
                       </div>
                       <div className="flex gap-6   p-2">
                         <ExternalLink className="w-4 text-gray-400" />

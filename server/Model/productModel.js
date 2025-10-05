@@ -8,8 +8,11 @@ const ProjectSchema = new mongoose.Schema(
   {
     projectName: { type: String, required: true },
     imagePath: { type: String, required: true, default: "" },
-    description: { type: String },
+    githubLink: { type: String, required: true },
+    liveLink: { type: String, default: "" },
+    description: { type: String, required: true },
     techs: [techSchema],
+    isLive: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

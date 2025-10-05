@@ -14,9 +14,9 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({ credentials: true, origin: `http://localhost:5173` }));
 app.use(cookieParser());
 
-app.use("/uploads", express.static("projectUploads"));
+app.use("/projectUploads", express.static("projectUploads"));
 app.use(express.json());
-app.use("/api/project/upload", ProjectRouter);
+app.use("/api/upload", ProjectRouter);
 app.use("/api/portfolio", AuthRoute);
 
 connectDB();
