@@ -6,15 +6,20 @@ import ProjectRouter from "./routes/projectRoutes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import AuthRoute from "./routes/AuthRouter.js";
+import path from "path";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const __dirname = path.resolve();
 
 //middleware
 app.use(cors({ credentials: true, origin: `http://localhost:5173` }));
 app.use(cookieParser());
 
-app.use("/projectUploads", express.static("projectUploads"));
+app.use(
+  "/projectUploads",
+  express.static(path.join(__dirname, "projectUploads"))
+);
 app.use(express.json());
 app.use("/api/upload", ProjectRouter);
 app.use("/api/portfolio", AuthRoute);

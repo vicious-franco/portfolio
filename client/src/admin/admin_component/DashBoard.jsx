@@ -283,7 +283,7 @@ const DashBoard = () => {
               return (
                 <div
                   key={item._id}
-                  className="bg-gray-800/50 text-white backdrop-blur-sm rounded-md border border-white/20"
+                  className="bg-gray-800/50 text-white backdrop-blur-sm rounded-md border border-white/20 overflow-hidden"
                 >
                   <div className="relative w-full bg-gradient-to-bl from-white/20 to-0 h-60">
                     {item.isLive ? (
@@ -295,8 +295,12 @@ const DashBoard = () => {
                         Dev
                       </p>
                     )}
-                    {projects.image ? (
-                      <img src={projects.image} alt="" />
+                    {item.imagePath ? (
+                      <img
+                        src={`${baseUrl}${item.imagePath}`}
+                        alt=""
+                        className="object-cover w-full h-full brightness-85 duration-400 ease-in-out cursor-pointer hover:brightness-95"
+                      />
                     ) : (
                       <div className=" text-gray-400  flex items-center h-full w-full">
                         <Code className=" m-auto h-15 w-20" />
