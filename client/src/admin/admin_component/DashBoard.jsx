@@ -28,41 +28,6 @@ const DashBoard = () => {
   const [showProfile, setShowProfile] = useState(false);
   const { userData, baseUrl } = useContext(AdminContextAuth);
   const navigate = useNavigate();
-
-  //   {
-  //     id: 1,
-  //     title: "E-Commerce Platform",
-  //     description: "Full-stack e-commerce solution with React and Node.js",
-  //     stack: ["React", "Node.js", "MongoDB", "Stripe"],
-  //     status: "Live",
-  //     image: "/api/placeholder/300/200",
-  //     liveUrl: "https://example.com",
-  //     githubUrl: "https://github.com/user/project",
-  //     createdAt: "2024-03-15",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "AI Dashboard",
-  //     description: "Machine learning dashboard with real-time analytics",
-  //     stack: ["Next.js", "Python", "TensorFlow", "PostgreSQL"],
-  //     status: "Development",
-  //     image: "/api/placeholder/300/200",
-  //     liveUrl: "",
-  //     githubUrl: "https://github.com/user/ai-dashboard",
-  //     createdAt: "2024-02-10",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Mobile App",
-  //     description: "Cross-platform mobile application using React Native",
-  //     stack: ["React Native", "Firebase", "Redux"],
-  //     status: "Live",
-  //     image: "/api/placeholder/300/200",
-  //     liveUrl: "https://app-store-link.com",
-  //     githubUrl: "",
-  //     createdAt: "2024-01-20",
-  //   },
-  // ]);
   const [projects, setProjects] = useState(null);
 
   const getProjectData = async () => {
@@ -94,7 +59,6 @@ const DashBoard = () => {
       });
       const info = await res.json();
       if (info.success) {
-        console.log(info);
         navigate("/auth/secret/admin-login");
       }
     } catch (error) {
@@ -115,6 +79,14 @@ const DashBoard = () => {
   const handleLogout = () => {
     setShowProfile((prev) => !prev);
   };
+
+  const liveProjectsCount = projects?.filter((item) => item.isLive).length;
+  const devProjectsCount = projects?.filter((item) => !item.isLive).length;
+  const techStackCount = projects?.filter((item) => item.techs);
+  const newTechs = techStackCount.map((item) => item.techs);
+  console.log(newTechs);
+
+
   return (
     <section className="relative min-h-screen w-screen">
       <div className="px-4 md:px-25">
@@ -183,7 +155,7 @@ const DashBoard = () => {
               </div>
               <div>
                 <p className="font-sm text-gray-400">Total Projects</p>
-                <h1 className="font-bold text-xl">3</h1>
+                <h1 className="font-bold text-xl">{projects?.length}</h1>
               </div>
             </div>
           </div>
@@ -194,7 +166,7 @@ const DashBoard = () => {
               </div>
               <div>
                 <p className="font-sm text-gray-400">In development</p>
-                <h1 className="font-bold text-xl">3</h1>
+                <h1 className="font-bold text-xl">{devProjectsCount}</h1>
               </div>
             </div>
           </div>
@@ -205,7 +177,7 @@ const DashBoard = () => {
               </div>
               <div>
                 <p className="font-sm text-gray-400">Live projects</p>
-                <h1 className="font-bold text-xl">3</h1>
+                <h1 className="font-bold text-xl">{liveProjectsCount}</h1>
               </div>
             </div>
           </div>
@@ -278,7 +250,6 @@ const DashBoard = () => {
           {/*  projects */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 my-4 ">
             {projects?.map((item) => {
-              console.log(item);
               return (
                 <div
                   key={item._id}
