@@ -29,7 +29,6 @@ const DashBoard = () => {
   const { userData, baseUrl } = useContext(AdminContextAuth);
   const navigate = useNavigate();
 
-  // const [projects, setProjects] = useState([
   //   {
   //     id: 1,
   //     title: "E-Commerce Platform",
@@ -117,7 +116,7 @@ const DashBoard = () => {
     setShowProfile((prev) => !prev);
   };
   return (
-    <section className="relative min-h-screen  w-screen">
+    <section className="relative min-h-screen w-screen">
       <div className="px-4 md:px-25">
         <nav className="relative text-white flex items-center justify-between pt pb-3 py-10 border-b border-green-400/40">
           <div className=" flex flex-col items-center gap-2 ">
@@ -277,13 +276,13 @@ const DashBoard = () => {
             </div>
           </div>
           {/*  projects */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 my-4 ">
             {projects?.map((item) => {
               console.log(item);
               return (
                 <div
                   key={item._id}
-                  className="bg-gray-800/50 text-white backdrop-blur-sm rounded-md border border-white/20 overflow-hidden"
+                  className="bg-gray-800/50 text-white backdrop-blur-sm rounded-md border border-white/20 overflow-hidden "
                 >
                   <div className="relative w-full bg-gradient-to-bl from-white/20 to-0 h-60">
                     {item.isLive ? (
@@ -319,7 +318,7 @@ const DashBoard = () => {
                             key={index * 20}
                             className="rounded-md text-gray-300 text-sm bg-gray-600/30 backdrop-blur-md border border-white/20 px-2 py-0.5"
                           >
-                            {tech.name}
+                            {tech}
                           </span>
                         );
                       })}
@@ -334,10 +333,18 @@ const DashBoard = () => {
                         </span>
                       </div>
                       <div className="flex gap-6   p-2">
-                        <ExternalLink className="w-4 text-gray-400" />
-                        <Github className="w-4 text-gray-400" />
-                        <Edit3 className="w-4 text-gray-400" />
-                        <Trash className="w-4 text-gray-400" />
+                        <span className="cursor-pointer">
+                          <ExternalLink className="w-4 text-gray-400 hover:text-gray-100 ease-in-out hover:w-5 duration-400" />
+                        </span>
+                        <span className="cursor-pointer">
+                          <Github className="w-4 text-gray-400 hover:text-gray-100 ease-in-out hover:w-5 duration-400" />
+                        </span>
+                        <span className="cursor-pointer">
+                          <Edit3 className="w-4 text-gray-400 hover:text-gray-100 ease-in-out hover:w-5 duration-400" />
+                        </span>
+                        <span className="cursor-pointer">
+                          <Trash className="w-4 text-gray-400 hover:text-gray-100 ease-in-out hover:w-5 duration-400" />
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -348,7 +355,7 @@ const DashBoard = () => {
         </div>
       </div>
       {addProject && (
-        <section className="absolute top-0  left-0 h-full w-full">
+        <section className="absolute top-0  left-0 min-h-screen w-full">
           <NewProject addProject={addProject} setaddProject={setaddProject} />
         </section>
       )}

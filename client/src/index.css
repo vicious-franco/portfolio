@@ -35,6 +35,18 @@ html {
   transition: 0.45s cubic-bezier(0.6, 0.6, 0, 1) box-shadow;
 }
 
+.custom-scroll::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 10px;
+  background-color: #3c544d5d;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  width: 8px;
+  border-radius: 10px;
+  background-color:#02a94d77;
+  cursor:pointer;
+}
+
 @layer utilities {
   @keyframes bouncing {
     0% {

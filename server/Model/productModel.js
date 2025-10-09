@@ -1,9 +1,5 @@
 import mongoose from "mongoose";
 
-const techSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-});
-
 const ProjectSchema = new mongoose.Schema(
   {
     projectName: { type: String, required: true },
@@ -11,7 +7,7 @@ const ProjectSchema = new mongoose.Schema(
     githubLink: { type: String, required: true },
     liveLink: { type: String, default: "" },
     description: { type: String, required: true },
-    techs: [techSchema],
+    techs: { type: [String], required: true },
     isLive: { type: Boolean, default: false },
   },
   { timestamps: true }
