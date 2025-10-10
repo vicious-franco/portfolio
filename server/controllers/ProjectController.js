@@ -2,7 +2,8 @@ import ProjectModal from "../Model/productModel.js";
 import fs from "fs/promises";
 
 export const createProjects = async (req, res) => {
-  const { projectName, description, imagePath, techs, githubLink } = req.body;
+  const { projectName, description, techs, githubLink, isLive } = req.body;
+  const imageFile = req.file;
   if (!projectName || !description || !techs || !githubLink) {
     return res
       .status(400)
@@ -13,8 +14,9 @@ export const createProjects = async (req, res) => {
       projectName,
       githubLink,
       description,
-      imagePath: req.file ? `/projectUploads/${req.file.filename}` : "",
+      imageFile: req.file ? `/projectUploads/${req.file.filename}` : "",
       techs: JSON.parse(techs),
+      isLive,
     });
     return res.status(201).json({
       success: true,
@@ -22,10 +24,10 @@ export const createProjects = async (req, res) => {
       projects,
     });
   } catch (err) {
-    console.log(err.message);
+    console.log("error at create project: " + err.message);
     try {
-      await fs.unlink(req.file.path);
-      console.log("deleted unused file: " + req.file.path);
+      await fs.unlink(req.file?.path);
+      console.log("deleted unused file: " + req.file?.path);
     } catch (error) {
       console.error(error);
     }

@@ -26,27 +26,10 @@ import { useEffect } from "react";
 const DashBoard = () => {
   const [addProject, setaddProject] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const { userData, baseUrl } = useContext(AdminContextAuth);
+  const { userData, baseUrl, projects, setProjects, getProjectData } =
+    useContext(AdminContextAuth);
   const navigate = useNavigate();
-  const [projects, setProjects] = useState(null);
 
-  const getProjectData = async () => {
-    try {
-      const res = await fetch(`${baseUrl}/api/upload/projects`, {
-        method: "get",
-        headers: { "content-type": "application/json" },
-      });
-      if (!res.ok) {
-        throw new Error("failed to connect DB");
-      }
-      const data = await res.json();
-      if (data.success) {
-        setProjects(data.projects);
-      }
-    } catch (err) {
-      console.log("failed to fetchprojects: " + err);
-    }
-  };
   useEffect(() => {
     getProjectData();
   }, []);
@@ -83,9 +66,8 @@ const DashBoard = () => {
   const liveProjectsCount = projects?.filter((item) => item.isLive).length;
   const devProjectsCount = projects?.filter((item) => !item.isLive).length;
   const techStackCount = projects?.filter((item) => item.techs);
-  const newTechs = techStackCount.map((item) => item.techs);
+  const newTechs = techStackCount?.map((item) => item.techs);
   console.log(newTechs);
-
 
   return (
     <section className="relative min-h-screen w-screen">
@@ -255,21 +237,21 @@ const DashBoard = () => {
                   key={item._id}
                   className="bg-gray-800/50 text-white backdrop-blur-sm rounded-md border border-white/20 overflow-hidden "
                 >
-                  <div className="relative w-full bg-gradient-to-bl from-white/20 to-0 h-60">
+                  <div className="relative w-full bg-gradient-to-bl from-white/20 to-0 h-60 ">
                     {item.isLive ? (
-                      <p className="absolute top-0 right-0 m-2 text-sm text-green-400  bg-green-500/20 inline-block px-2 rounded-full border border-green-400/50">
+                      <p className="absolute  z-10 top-0 right-0 m-2 text-sm text-green-400  bg-green-500/20 inline-block px-2 rounded-full  border-green-400/50">
                         Live
                       </p>
                     ) : (
-                      <p className="absolute top-0 right-0 m-2 text-sm text-orange-400  bg-[#ff6900]/20 inline-block px-2 rounded-full border border-orange-500/50">
+                      <p className="absolute z-10 top-0 right-0 m-2 text-sm text-orange-400  bg-[#ff6900]/20 inline-block px-2 rounded-full border border-orange-500/50">
                         Dev
                       </p>
                     )}
-                    {item.imagePath ? (
+                    {item.imageFile ? (
                       <img
-                        src={`${baseUrl}${item.imagePath}`}
+                        src={`${baseUrl}${item.imageFile}`}
                         alt=""
-                        className="object-cover w-full h-full brightness-85 duration-400 ease-in-out cursor-pointer hover:brightness-95"
+                        className="object-cover w-full h-full brightness-75 duration-400 ease-in-out cursor-pointer hover:brightness-95"
                       />
                     ) : (
                       <div className=" text-gray-400  flex items-center h-full w-full">

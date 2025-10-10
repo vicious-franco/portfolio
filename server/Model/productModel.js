@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const ProjectSchema = new mongoose.Schema(
   {
     projectName: { type: String, required: true },
-    imagePath: { type: String, required: true, default: "" },
+    imageFile: { type: String, required: true },
     githubLink: { type: String, required: true },
     liveLink: { type: String, default: "" },
     description: { type: String, required: true },
     techs: { type: [String], required: true },
-    isLive: { type: Boolean, default: false },
+    isLive: { type: Boolean },
   },
   { timestamps: true }
 );

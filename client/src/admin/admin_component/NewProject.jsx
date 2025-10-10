@@ -3,16 +3,73 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { useContext } from "react";
+import { AdminContextAuth } from "../adminContext/AdminContext";
 
 const NewProject = ({ setaddProject }) => {
+  const { baseUrl, getProjectData } = useContext(AdminContextAuth);
+
+  // handle form functions
+
   const [techStacks, settechStacks] = useState([]);
   const handleStacks = (e) => {
     const { value, checked } = e.target;
     if (checked) {
       settechStacks((prev) => [...prev, value]);
-      console.log(techStacks);
     }
   };
+
+  const [createProject, setcreateProject] = useState({ techs: [] });
+
+  const handleChange = (e) => {
+    setcreateProject((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+  const handleTechs = (e) => {
+    if (e.target.checked) {
+      setcreateProject((prev) => {
+        return { ...prev, techs: [...prev.techs, e.target.value] };
+      });
+    }
+  };
+  console.log(createProject);
+
+  // fetching data from api
+
+  const submitProject = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("projectName", createProject.projectName);
+      formData.append("description", createProject.description);
+      formData.append("githubLink", createProject.githubLink);
+      formData.append("liveLink", createProject.liveLink);
+      formData.append("techs", JSON.stringify(createProject.techs)); // Must be stringified array
+      formData.append("isLive", createProject.isLive);
+      formData.append("image", createProject.imageFile); // The actual file object
+
+      // Send to backend
+      const res = await fetch(`${baseUrl}/api/upload/projects`, {
+        method: "POST",
+        body: formData,
+        // Don't set Content-Type header - browser will set it automatically with boundary
+      });
+      if (!res.ok) {
+        throw new Error(
+          `Failed to add a project: ${res.status} ${res.statusText}`
+        );
+      }
+      const data = await res.json();
+      if (data.success) {
+        console.log(data);
+        await getProjectData();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(createProject.imageFile);
   const navigate = useNavigate();
   return (
     <section className=" h-screen fixed top-0 right-0 overflow-hidden sm:overflow-auto bg-black/30 backdrop-blur-sm w-full flex items-center justify-center">
@@ -39,9 +96,11 @@ const NewProject = ({ setaddProject }) => {
                 project title
               </label>
               <input
+                onChange={handleChange}
                 className="rounded-md px-4 py-1 bg-[#2b3544]"
                 placeholder="Enter The Project Title"
                 type="text"
+                name="projectName"
                 id="title"
               />
             </div>
@@ -51,9 +110,15 @@ const NewProject = ({ setaddProject }) => {
               </label>
               <input
                 className="rounded-md px-4 py-1 bg-[#2b3544]"
-                placeholder="Enter The Project Title"
                 type="file"
                 name="image"
+                onChange={(e) => {
+                  if (e.target.files[0]) {
+                    setcreateProject((prev) => {
+                      return { ...prev, imageFile: e.target.files[0] };
+                    });
+                  }
+                }}
                 id="title"
               />
             </div>
@@ -65,7 +130,8 @@ const NewProject = ({ setaddProject }) => {
                 className="rounded-md px-4 py-1 bg-[#2b3544]"
                 placeholder="https://github.com/octocat/example"
                 type="text"
-                name="image"
+                onChange={handleChange}
+                name="githubLink"
                 id="title"
               />
             </div>
@@ -77,7 +143,8 @@ const NewProject = ({ setaddProject }) => {
                 className="rounded-md px-4 py-1 bg-[#2b3544]"
                 placeholder="https://exam.com"
                 type="text"
-                name="image"
+                onChange={handleChange}
+                name="liveLink"
                 id="title"
               />
             </div>
@@ -89,6 +156,8 @@ const NewProject = ({ setaddProject }) => {
                 type="text"
                 id="description"
                 className="bg-[#2b3544] rounded-md p-4"
+                onChange={handleChange}
+                name="description"
                 placeholder="Describe your Project"
               />
             </div>
@@ -107,6 +176,7 @@ const NewProject = ({ setaddProject }) => {
                             type="checkbox"
                             value="React js"
                             className="accent-blue-500"
+                            onChange={handleTechs}
                           />
                           <span>React js</span>
                         </label>
@@ -115,6 +185,7 @@ const NewProject = ({ setaddProject }) => {
                           <input
                             type="checkbox"
                             value="Mongo DB"
+                            onChange={handleTechs}
                             className="accent-green-500"
                           />
                           <span>Mongo DB</span>
@@ -124,6 +195,7 @@ const NewProject = ({ setaddProject }) => {
                         <label className="flex items-center space-x-2">
                           <input
                             type="checkbox"
+                            onChange={handleTechs}
                             value="Python"
                             className="accent-yellow-500"
                           />
@@ -133,6 +205,7 @@ const NewProject = ({ setaddProject }) => {
                         <label className="flex items-center space-x-2">
                           <input
                             type="checkbox"
+                            onChange={handleTechs}
                             value="Express js"
                             className="accent-gray-500"
                             onClick={handleStacks}
@@ -144,6 +217,7 @@ const NewProject = ({ setaddProject }) => {
                         <label className="flex items-center space-x-2">
                           <input
                             type="checkbox"
+                            onChange={handleTechs}
                             value="Node js"
                             className="accent-green-600"
                           />
@@ -161,6 +235,11 @@ const NewProject = ({ setaddProject }) => {
               </label>
 
               <select
+                onClick={(e) =>
+                  setcreateProject((prev) => {
+                    return { ...prev, isLive: e.target.value === "Live" };
+                  })
+                }
                 name="status"
                 id="status"
                 className="rounded-md px-4 py-2 bg-[#2b3544]"
@@ -180,8 +259,11 @@ const NewProject = ({ setaddProject }) => {
               >
                 Cancel
               </button>
-              <button className="py-1.5 px-2 md:px-6 rounded-md bg-green-600 hover:bg-green-500 cursor-pointer duration-400">
-                Add project
+              <button
+                onClick={submitProject}
+                className="py-1.5 px-2 md:px-6 rounded-md bg-green-600 hover:bg-green-500 cursor-pointer duration-400"
+              >
+                Submit Project
               </button>
             </div>
           </div>

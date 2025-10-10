@@ -9,6 +9,9 @@ export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [baseUrl, setbaseUrl] = useState(import.meta.env.VITE_BACKEND_URL);
 
+  // product to display
+  const [projects, setProjects] = useState(null);
+
   const authenticateUser = async () => {
     try {
       const res = await fetch(`${baseUrl}/api/portfolio/user`, {
@@ -30,8 +33,34 @@ export const AuthProvider = ({ children }) => {
       console.log(error);
     }
   };
- 
-  const data = { userData, isloggedin, baseUrl, authenticateUser };
+  // function to fetch projects from backend
+  const getProjectData = async () => {
+    try {
+      const res = await fetch(`${baseUrl}/api/upload/projects`, {
+        method: "get",
+        headers: { "content-type": "application/json" },
+      });
+      if (!res.ok) {
+        throw new Error("failed to connect DB");
+      }
+      const data = await res.json();
+      if (data.success) {
+        setProjects(data.projects);
+      }
+    } catch (err) {
+      console.log("failed to fetchprojects: " + err);
+    }
+  };
+
+  const data = {
+    userData,
+    isloggedin,
+    baseUrl,
+    authenticateUser,
+    projects,
+    setProjects,
+    getProjectData,
+  };
   return (
     <AdminContextAuth.Provider value={data}>
       {children}
