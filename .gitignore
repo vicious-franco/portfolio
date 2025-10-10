@@ -33,3 +33,4 @@ dist-ssr/
 
 # Optional: OS-specific junk
 Thumbs.db
+server/projectUploads/
