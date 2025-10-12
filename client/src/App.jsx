@@ -9,6 +9,7 @@ import Login from "./admin/admin_component/Login";
 import DashBoard from "./admin/admin_component/DashBoard";
 import { AdminContextAuth } from "./admin/adminContext/AdminContext";
 import { useContext } from "react";
+import UpdateProject from "./admin/admin_component/UpdateProject";
 
 const App = () => {
   const { userData, isloggedin } = useContext(AdminContextAuth);

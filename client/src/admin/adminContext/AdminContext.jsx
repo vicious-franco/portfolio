@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   // product to display
   const [projects, setProjects] = useState(null);
 
+  // authentication api
   const authenticateUser = async () => {
     try {
       const res = await fetch(`${baseUrl}/api/portfolio/user`, {
@@ -33,10 +34,10 @@ export const AuthProvider = ({ children }) => {
       console.log(error);
     }
   };
-  // function to fetch projects from backend
+  // get data from api
   const getProjectData = async () => {
     try {
-      const res = await fetch(`${baseUrl}/api/upload/projects`, {
+      const res = await fetch(`${baseUrl}/api/projects/all-projects`, {
         method: "get",
         headers: { "content-type": "application/json" },
       });
@@ -52,6 +53,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // delete request api
+
+  const deleteProject = async (id) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/projects/remove/${id}`, {
+        method: "delete",
+      });
+      if (!res.ok) {
+        throw new Error("failed to connect to server");
+      }
+      const data = await res.json();
+      if (data.success) {
+        await getProjectData();
+      }
+    } catch (error) {
+
+    }
+  };
+
+
+  
   const data = {
     userData,
     isloggedin,
@@ -60,6 +82,8 @@ export const AuthProvider = ({ children }) => {
     projects,
     setProjects,
     getProjectData,
+    deleteProject,
+   
   };
   return (
     <AdminContextAuth.Provider value={data}>

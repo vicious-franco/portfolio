@@ -22,17 +22,28 @@ import NewProject from "./NewProject";
 import { AdminContextAuth } from "../adminContext/AdminContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import UpdateProject from "./UpdateProject";
 
 const DashBoard = () => {
   const [addProject, setaddProject] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  const { userData, baseUrl, projects, setProjects, getProjectData } =
-    useContext(AdminContextAuth);
+  const [projectId, setProjectId] = useState(null);
+  const [showUpdate, setshowUpdate] = useState(false);
+  const {
+    userData,
+    baseUrl,
+    projects,
+    setProjects,
+    deleteProject,
+    getProjectData,
+  } = useContext(AdminContextAuth);
   const navigate = useNavigate();
 
   useEffect(() => {
     getProjectData();
   }, []);
+
+  // logging out api
 
   const makeLogout = async () => {
     try {
@@ -292,10 +303,19 @@ const DashBoard = () => {
                         <span className="cursor-pointer">
                           <Github className="w-4 text-gray-400 hover:text-gray-100 ease-in-out hover:w-5 duration-400" />
                         </span>
-                        <span className="cursor-pointer">
+                        <span
+                          onClick={() => {
+                            setProjectId(item._id);
+                            setshowUpdate(true);
+                          }}
+                          className="cursor-pointer"
+                        >
                           <Edit3 className="w-4 text-gray-400 hover:text-gray-100 ease-in-out hover:w-5 duration-400" />
                         </span>
-                        <span className="cursor-pointer">
+                        <span
+                          onClick={() => deleteProject(item._id)}
+                          className="cursor-pointer"
+                        >
                           <Trash className="w-4 text-gray-400 hover:text-gray-100 ease-in-out hover:w-5 duration-400" />
                         </span>
                       </div>
@@ -311,6 +331,9 @@ const DashBoard = () => {
         <section className="absolute top-0  left-0 min-h-screen w-full">
           <NewProject addProject={addProject} setaddProject={setaddProject} />
         </section>
+      )}
+      {showUpdate && projectId && (
+        <UpdateProject setshowUpdate={setshowUpdate} projectId={projectId} />
       )}
     </section>
   );

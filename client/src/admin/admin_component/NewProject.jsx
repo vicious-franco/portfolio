@@ -35,7 +35,7 @@ const NewProject = ({ setaddProject }) => {
   };
   console.log(createProject);
 
-  // fetching data from api
+  // submitting project to api backend
 
   const submitProject = async (e) => {
     e.preventDefault();
@@ -45,15 +45,14 @@ const NewProject = ({ setaddProject }) => {
       formData.append("description", createProject.description);
       formData.append("githubLink", createProject.githubLink);
       formData.append("liveLink", createProject.liveLink);
-      formData.append("techs", JSON.stringify(createProject.techs)); // Must be stringified array
-      formData.append("isLive", createProject.isLive);
-      formData.append("image", createProject.imageFile); // The actual file object
+      formData.append("techs", JSON.stringify(createProject.techs)); 
+      formData.append("image", createProject.imageFile); 
 
-      // Send to backend
-      const res = await fetch(`${baseUrl}/api/upload/projects`, {
+     
+      const res = await fetch(`${baseUrl}/api/projects/upload`, {
         method: "POST",
         body: formData,
-        // Don't set Content-Type header - browser will set it automatically with boundary
+       
       });
       if (!res.ok) {
         throw new Error(
