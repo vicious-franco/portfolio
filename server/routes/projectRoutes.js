@@ -14,6 +14,10 @@ ProjectRouter.post("/upload", uploads.single("image"), createProjects);
 ProjectRouter.get("/all-projects", getProjects);
 ProjectRouter.delete("/remove/:id", deleteProject);
 ProjectRouter.get("/:projectId", singleProject);
-ProjectRouter.patch("/update/:id", uploads.single("image"), updateProject);
+ProjectRouter.patch(
+  "/update/:projectId",
+  uploads.single("image"),
+  updateProject
+);
 
 export default ProjectRouter;

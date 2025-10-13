@@ -13,7 +13,13 @@ const PORT = process.env.PORT || 5000;
 const __dirname = path.resolve();
 
 //middleware
-app.use(cors({ credentials: true, origin: `http://localhost:5173` }));
+app.use(
+  cors({
+    credentials: true,
+    origin: `http://localhost:5173`,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  })
+);
 app.use(cookieParser());
 
 app.use(

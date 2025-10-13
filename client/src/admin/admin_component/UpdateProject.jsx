@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { AdminContextAuth } from "../adminContext/AdminContext";
 
 const UpdateProject = ({ projectId, setshowUpdate }) => {
+  console.log(projectId);
   const { baseUrl, getProjectData } = useContext(AdminContextAuth);
   const [project, setProject] = useState(null);
   const [formState, setFormState] = useState({ techs: [] });
@@ -76,13 +76,14 @@ const UpdateProject = ({ projectId, setshowUpdate }) => {
         formData.append("image", formState.imageFile);
       }
 
-      const res = await fetch(`${baseUrl}/api/projects/${projectId}`, {
-        method: "patch",
+      const res = await fetch(`${baseUrl}/api/projects/update/${projectId}`, {
+        method: "PATCH",
+        credentials: "include",
         body: formData,
       });
       if (!res.ok) throw new Error("Failed to update project");
       await getProjectData();
-      navigate("/admin/projects");
+      navigate("/auth/secret/admin/dashboard");
     } catch (err) {
       console.error(err);
     }

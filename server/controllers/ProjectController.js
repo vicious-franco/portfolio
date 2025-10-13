@@ -76,13 +76,14 @@ export const deleteProject = async (req, res) => {
 // updating project controller
 
 export const updateProject = async (req, res) => {
-  const { id } = req.params;
+  const { projectId } = req.params;
+  console.log(projectId);
 
   try {
     if (req.body) {
-      if (id) {
+      if (projectId) {
         const updateProject = await ProjectModal.findByIdAndUpdate(
-          id,
+          projectId,
           req.body,
           {
             runValidators: true,
