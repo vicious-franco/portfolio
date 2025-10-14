@@ -4,22 +4,36 @@ import fs from "fs/promises";
 // creating project controller
 
 export const createProjects = async (req, res) => {
+   console.log("=== DEBUG INFO ===");
+   console.log("req.file:", req.file);
+   console.log("req.body:", req.body);
+   console.log("req.headers:", req.headers);
+   console.log("==================");
+
   const { projectName, description, techs, githubLink, isLive } = req.body;
   const imageFile = req.file;
+
+
   if (!projectName || !description || !techs || !githubLink) {
     return res
       .status(400)
       .json({ success: false, message: "All fields are required" });
   }
+
   try {
+    // Get the Cloudinary URL
+    // req.file.path contains the full Cloudinary URL
+    const imageUrl = req.file ? req.file.path : "";
+
     const projects = await ProjectModal.create({
       projectName,
       githubLink,
       description,
-      imageFile: req.file ? `/projectUploads/${req.file.filename}` : "",
+      imageFile: imageUrl, // Store the Cloudinary URL
       techs: JSON.parse(techs),
       isLive,
     });
+
     return res.status(201).json({
       success: true,
       message: "Project created successfully",
@@ -27,13 +41,11 @@ export const createProjects = async (req, res) => {
     });
   } catch (err) {
     console.log("error at create project: " + err.message);
-    try {
-      await fs.unlink(req.file?.path);
-      console.log("deleted unused file: " + req.file?.path);
-    } catch (error) {
-      console.error(error);
-    }
-    return res.status(500).json({ sucess: false, message: err.message });
+
+    // Note: File is already uploaded to Cloudinary
+    // You can delete it using cloudinary.uploader.destroy(req.file.filename) if needed
+
+    return res.status(500).json({ success: false, message: err.message });
   }
 };
 // getting projects controller
@@ -81,6 +93,17 @@ export const updateProject = async (req, res) => {
 
   try {
     if (req.body) {
+      if (typeof req.body.techs === "string") {
+        try {
+          req.body.techs = JSON.parse(req.body.techs);
+        } catch (err) {
+          return res.status(400).json({
+            success: false,
+            message: "Invalid techs format. Must be a JSON array.",
+          });
+        }
+      }
+
       if (projectId) {
         const updateProject = await ProjectModal.findByIdAndUpdate(
           projectId,
@@ -108,6 +131,7 @@ export const updateProject = async (req, res) => {
     }
   } catch (err) {
     console.error(err.message);
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
