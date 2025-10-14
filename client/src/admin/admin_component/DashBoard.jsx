@@ -133,9 +133,13 @@ const DashBoard = () => {
                   Logout
                 </p>
               </div>
-              <p className="uppercase text-center font-light">
-                {userData?.dev_name}
-              </p>
+              {userData.phone_number && (
+                <p
+                  onClick={()=>navigate("/")}
+                  className="uppercase cursor-pointer hover:text-green-500 text-center font-light">
+                  portfolio
+                </p>
+              )}
             </div>
           )}
         </nav>

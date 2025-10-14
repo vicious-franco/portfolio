@@ -9,8 +9,8 @@ import Login from "./admin/admin_component/Login";
 import DashBoard from "./admin/admin_component/DashBoard";
 import { AdminContextAuth } from "./admin/adminContext/AdminContext";
 import { useContext } from "react";
-import UpdateProject from "./admin/admin_component/UpdateProject";
-
+import {ToastContainer,toast} from "react-toastify"
+  
 const App = () => {
   const { userData, isloggedin } = useContext(AdminContextAuth);
   const [isLoading, setisLoading] = useState(true);
@@ -20,6 +20,7 @@ const App = () => {
   // }
   return (
     <div className=" max-w-screen  overflow-hidden">
+      <ToastContainer/>
       <Routes>
         <Route
           path="/"

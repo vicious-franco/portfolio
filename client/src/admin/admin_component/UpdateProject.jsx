@@ -1,12 +1,21 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState, useContext } from "react";
 import { AdminContextAuth } from "../adminContext/AdminContext";
+import { useNavigate } from "react-router-dom";
 
 const UpdateProject = ({ projectId, setshowUpdate }) => {
-  console.log(projectId);
+  const navigate = useNavigate();
   const { baseUrl, getProjectData } = useContext(AdminContextAuth);
   const [project, setProject] = useState(null);
-  const [formState, setFormState] = useState({ techs: [] });
+  const [formState, setFormState] = useState({
+    projectName: "",
+    description: "",
+    githubLink: "",
+    liveLink: "",
+    techs: [],
+    isLive: false,
+    imageFile: null,
+  });
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -38,6 +47,7 @@ const UpdateProject = ({ projectId, setshowUpdate }) => {
 
   const handleTechs = (e) => {
     const { value, checked } = e.target;
+
     setFormState((prev) => {
       const techs = checked
         ? [...prev.techs, value]
@@ -75,6 +85,8 @@ const UpdateProject = ({ projectId, setshowUpdate }) => {
       if (formState.imageFile) {
         formData.append("image", formState.imageFile);
       }
+
+      console.log(formState.techs);
 
       const res = await fetch(`${baseUrl}/api/projects/update/${projectId}`, {
         method: "PATCH",
@@ -191,21 +203,23 @@ const UpdateProject = ({ projectId, setshowUpdate }) => {
           </label>
           <div className="bg-[#2b3544] rounded-md px-4 py-3 flex flex-wrap gap-4">
             {["React js", "Mongo DB", "Python", "Express js", "Node js"].map(
-              (tech) => (
-                <label
-                  key={tech}
-                  className="flex items-center space-x-2 text-white"
-                >
-                  <input
-                    type="checkbox"
-                    value={tech}
-                    checked={formState.techs.includes(tech)}
-                    onChange={handleTechs}
-                    className="accent-green-500"
-                  />
-                  <span>{tech}</span>
-                </label>
-              )
+              (tech) => {
+                return (
+                  <label
+                    key={tech}
+                    className="flex items-center space-x-2 text-white"
+                  >
+                    <input
+                      type="checkbox"
+                      value={tech}
+                      checked={formState.techs?.includes(tech)}
+                      onChange={handleTechs}
+                      className="accent-green-500"
+                    />
+                    <span>{tech}</span>
+                  </label>
+                );
+              }
             )}
           </div>
         </div>

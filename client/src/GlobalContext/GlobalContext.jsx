@@ -8,8 +8,32 @@ const ContextProvider = ({ children }) => {
   const [showMenu, setShowMenu] = useState(true);
   const [showToast, setShowToast] = useState(false);
   const [toastInfo, setToastInfo] = useState({});
-  const [allProjects, setAllProjects] = useState(projects);
+  const [allProjects, setAllProjects] = useState([]);
+
   const [baseUrl, setbaseUrl] = useState(import.meta.env.VITE_BACKEND_URL);
+
+  const getProjectData = async () => {
+    try {
+      const res = await fetch(`${baseUrl}/api/projects/all-projects`, {
+        method: "get",
+        headers: { "content-type": "application/json" },
+      });
+      if (!res.ok) {
+        throw new Error("failed to connect DB");
+      }
+      const data = await res.json();
+      if (data.success) {
+        setAllProjects(data.projects);
+        console.log("________________________all projects___________");
+        console.log("Fetched projects from API:", data.projects);
+      }
+    } catch (err) {
+      console.log("failed to fetchprojects: " + err);
+    }
+  };
+  useEffect(() => {
+    getProjectData();
+  }, [baseUrl]);
 
   const lastScrollY = useRef(0);
 
@@ -42,6 +66,8 @@ const ContextProvider = ({ children }) => {
     allProjects,
     setAllProjects,
     baseUrl,
+    getProjectData,
+   
   };
 
   return (

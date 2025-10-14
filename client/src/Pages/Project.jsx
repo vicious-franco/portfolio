@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { slideInFromLeft } from "../utilis/motion";
 import {
@@ -12,15 +12,23 @@ import {
 } from "lucide-react";
 import { GlobalContext } from "../GlobalContext/GlobalContext";
 import { projects } from "../assets/data";
+import { toast } from "react-toastify";
 
 const Project = () => {
   const [desc, setDesc] = useState({});
   // const [showToolTip, setshowToolTip] = useState({});
   const [learnMore, setLearnMore] = useState(false);
   const [filterStack, setFilterStack] = useState({ 1: true });
-  const { allProjects, setAllProjects } = useContext(GlobalContext);
-  const [projectsRender, setProjectsRender] = useState(allProjects);
-  console.log(allProjects);
+  const { allProjects, setAllProjects, baseUrl } = useContext(GlobalContext);
+  const [projectsRender, setProjectsRender] = useState([]);
+
+  useEffect(() => setProjectsRender(allProjects), [allProjects]);
+
+  console.log(desc);
+  // project render
+  useEffect(() => {
+    console.log("Updated allProjects state:", projectsRender);
+  }, [allProjects]);
 
   const projectFilters = [
     { id: 1, label: "All" },
@@ -40,7 +48,7 @@ const Project = () => {
   const filterProjects = (e) => {
     if (e.target.textContent !== "All") {
       const renderProject = allProjects.filter((proj) =>
-        proj.stack.some(
+        proj.techs.some(
           (item) => item.toLowerCase() === e.target.textContent.toLowerCase()
         )
       );
@@ -124,23 +132,42 @@ const Project = () => {
                   className="shadow-inner shadow-green-600 rounded-md overflow-hidden"
                 >
                   <div
-                    onMouseEnter={() => setDesc({ [item.id]: true })}
-                    onMouseLeave={() => setDesc({ [item.id]: false })}
+                    onMouseEnter={() => setDesc({ [item._id]: true })}
+                    onMouseLeave={() => setDesc({ [item._id]: false })}
                     className="border relative overflow-hidden h-[280px] w-full  md:h-[280px] md:min-w-[300px] lg:min-w-[200px] border-[#02a94c]/30   group hover:-translate-[2px] duration-300 ease-in-out"
                   >
-                    <p className="z-100  absolute top-0 right-0 m-4 text-sm text-green-400  bg-green-500/20 inline-block px-2 rounded-full border border-green-400/50">
-                      Live
-                    </p>
+                    <div className="relative w-full bg-gradient-to-bl from-white/20 to-0 h-60 ">
+                      {item.isLive ? (
+                        <p className="absolute  z-10 top-0 right-0 m-2 text-sm text-green-400  bg-green-500/20 inline-block px-2 rounded-full  border-green-400/50">
+                          Live
+                        </p>
+                      ) : (
+                        <p className="absolute z-10 top-0 right-0 m-2 text-sm text-orange-400  bg-[#ff6900]/20 inline-block px-2 rounded-full border border-orange-500/50">
+                          Dev
+                        </p>
+                      )}
+                      {item.imageFile ? (
+                        <img
+                          src={`${baseUrl}${item.imageFile}`}
+                          alt=""
+                          className="object-cover w-full h-full brightness-75 duration-400 ease-in-out cursor-pointer hover:brightness-95"
+                        />
+                      ) : (
+                        <div className=" text-gray-400  flex items-center h-full w-full">
+                          <Code className=" m-auto h-15 w-20" />
+                        </div>
+                      )}
+                    </div>
                     <p className="z-100 flex itemx-center gap-3 absolute top-0 left-0 m-4 text-sm text-green-400  bg-green-500/20  px-2 rounded-full border border-green-400/50">
                       <Star className="w-4" /> Featured
                     </p>
                     <img
                       className="w-full  rounded-md  h-full object-cover brightness-50 hover:brightness-95 group-hover:brightness-90 duration-500 ease-in-out transition-all "
-                      src={item.image}
+                      src={`${baseUrl}${item.imageFile}`}
                       alt=""
                     />
                     {/* description */}
-                    {desc[item.id] && (
+                    {desc[item._id] && (
                       <motion.div
                         initial={{ opacity: 0, x: 200 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -153,25 +180,25 @@ const Project = () => {
                         className="absolute z-10 top-0 left-0 bg-gradient-to-t from-[#0f192d] to-[#44c49c8a] border border-[#02a94c] flex flex-col justify-center items-center backdrop-blur-md h-full w-full"
                       >
                         <button className=" rounded-sm hover:bg-[#0f192d] cursor-pointer border border-[#4ad3a8] px-5 py-2  text-white uppercase text-md font-semibold ">
-                          Live Demo
+                          {item.isLive ? "Live Demo" : "Github Repo"}
                         </button>
                       </motion.div>
                     )}
                   </div>
                   <div className="p-3">
                     <div className="w-full space-y-2 font-semibold text-gray-300 ">
-                      <h1 className=" uppercase mt-2 ">E-commerce platform</h1>
+                      <h1 className=" uppercase mt-2 ">{item.projectName}</h1>
                       <p className="text-sm font-medium text-gray-400">
-                        A full-stack e-commerce solution built with React and
-                        Node.js, featuring real-time inventory management,
-                        secure payment processing, and an intuitive admin
-                        dashboard.
+                        {item.description}
                       </p>
                     </div>
                     <div className="flex gap-3 mt-3">
-                      {item.stack.map((tech) => {
+                      {item.techs.map((tech, index) => {
                         return (
-                          <span className="rounded-full text-gray-300 text-sm bg-gray-600/30 backdrop-blur-md border border-green-500/20 px-2 py-0.5">
+                          <span
+                            key={index + 10}
+                            className="rounded-full text-gray-300 text-sm bg-gray-600/30 backdrop-blur-md border border-green-500/20 px-2 py-0.5"
+                          >
                             {tech}
                           </span>
                         );
@@ -194,10 +221,23 @@ const Project = () => {
                       </div>
                     </div>
                     <div className="flex justify-between gap-12 my-6 cursor-pointer ">
-                      <button className="w-full cursor-pointer  flex items-center justify-center gap-2 py-2 bg-green-600 duration-400 hover:bg-green-500 text-white rounded-lg ">
+                      <button
+                        onClick={() =>
+                          item.isLive
+                            ? window.open(item.liveLink, "_blank")
+                            : toast.info(
+                                "project still under development phase"
+                              )
+                        }
+                        className="cursor-pointer w-full  flex items-center justify-center gap-2 py-2 bg-green-600 duration-400 hover:bg-green-500 text-white rounded-lg "
+                      >
                         <ExternalLink className="w-5 h-4" /> View Live
                       </button>
-                      <button className="w-full  cursor-pointer flex justify-center items-center gap-2 py-2 bg-[#242e3e] duration-400 hover:bg-gray-700 rounded-lg text-white">
+
+                      <button
+                        onClick={() => window.open(item.githubLink, "_blank")}
+                        className="w-full  cursor-pointer flex justify-center items-center gap-2 py-2 bg-[#242e3e] duration-400 hover:bg-gray-700 rounded-lg text-white"
+                      >
                         <Github className="w-5 h-4" /> Code
                       </button>
                     </div>
