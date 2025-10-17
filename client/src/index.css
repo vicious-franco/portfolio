@@ -43,8 +43,8 @@ html {
 .custom-scroll::-webkit-scrollbar-thumb {
   width: 8px;
   border-radius: 10px;
-  background-color:#02a94d77;
-  cursor:pointer;
+  background-color: #02a94d77;
+  cursor: pointer;
 }
 
 @layer utilities {

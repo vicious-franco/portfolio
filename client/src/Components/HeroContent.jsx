@@ -2,12 +2,13 @@ import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { slideInFromLeft, slideInFromTop } from "../utilis/motion";
 import { HiSparkles } from "react-icons/hi2";
-import avatar from "../assets/dev assets/projects/avatar.png";
 import { socialIcons } from "../assets/data";
 import Typewriter from "typewriter-effect";
+import { useNavigate } from "react-router-dom";
 
 const HeroContent = () => {
   const [readMore, setreadMore] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <motion.div
@@ -103,7 +104,7 @@ const HeroContent = () => {
         className="hidden md:flex w-full h-full justify-center item-center"
       >
         <img
-          src={avatar}
+          src="/avatar.png"
           className="bounce"
           alt="work icons"
           height={650}
@@ -113,8 +114,11 @@ const HeroContent = () => {
       {/* socials */}
       <div className="hidden  overflow-hidden ml-5 lg:ml-15 sm:flex justify-end items-center flex-col gap-10 w-10 h-[80vh] text-gray-300 fixed left-0 bottom-16 ">
         <div className="flex flex-col justify-center items-center gap-4 h-full ">
-          <span className="text-nowrap mt-6 -rotate-90 mb-8 text-md font-semibold capitalize">
-            atlas dev
+          <span
+            onClick={() => navigate("/auth/secret/admin-login")}
+            className="cursor-pointer text-nowrap mt-6 hover:text-[#02a94c]  -rotate-90 mb-8 text-md font-semibold capitalize"
+          >
+            V. franco
           </span>
           <hr color="#c7cbd3" className="w-[1.8px] h-20 " />
 

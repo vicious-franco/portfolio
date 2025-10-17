@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useRef, useState } from "react";
-import { projects } from "../assets/data.js";
 
 export const GlobalContext = createContext();
 
@@ -24,8 +23,6 @@ const ContextProvider = ({ children }) => {
       const data = await res.json();
       if (data.success) {
         setAllProjects(data.projects);
-        console.log("________________________all projects___________");
-        console.log("Fetched projects from API:", data.projects);
       }
     } catch (err) {
       console.log("failed to fetchprojects: " + err);
@@ -67,7 +64,6 @@ const ContextProvider = ({ children }) => {
     setAllProjects,
     baseUrl,
     getProjectData,
-   
   };
 
   return (

@@ -1,5 +1,5 @@
 import { FaBarsStaggered } from "react-icons/fa6";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { GlobalContext } from "../GlobalContext/GlobalContext";
 import { easeInOut, motion } from "framer-motion";
 import MobileNav from "./MobileNav";
@@ -7,6 +7,7 @@ import { navbar } from "../assets/data";
 
 const NavBar = () => {
   const { isOpen, setIsOpen, showMenu } = useContext(GlobalContext);
+  const [activeTab, setactiveTab] = useState("Home");
 
   return (
     <motion.nav
@@ -26,13 +27,24 @@ const NavBar = () => {
           <span className="text-white/80">Leon</span>
         </div>
         <ul className="hidden lg:flex gap-6 font-semibold text-md">
-          {navbar.map((n, i) => (
-            <a href={`#${n.link}`} key={i + 1}>
-              <li className="hover:border-b-2 text-gray-300 cursor-pointer transform-border duration-300 ease-in-out hover:text-[#02a94c] hover:border-[#02a94c] rounded-2xl px-2">
-                {n.name}
-              </li>
-            </a>
-          ))}
+          {navbar.map((n, i) => {
+            return (
+              <a href={`#${n.link}`} key={i + 1}>
+                <li
+                  onClick={() => {
+                    setactiveTab(n.name);
+                  }}
+                  className={`hover:border-b-2 cursor-pointer transform-border ${
+                    activeTab === n.name
+                      ? "text-[#02a94c] border-b-2 border-[#02a94c]"
+                      : "text-gray-300"
+                  }duration-300 ease-in-out hover:text-[#02a94c] hover:border-[#02a94c] rounded-2xl px-2`}
+                >
+                  {n.name}
+                </li>
+              </a>
+            );
+          })}
         </ul>
         <div className="hidden lg:flex gap-3   text-gray-300 items-center">
           <a

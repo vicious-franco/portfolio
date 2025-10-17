@@ -100,6 +100,13 @@ const Login = () => {
                 click here{" "}
               </span>
             </p>
+
+            <span
+              onClick={() => navigate("/")}
+              className="capitalise text-sm text-center text-gray-400 hover:text-green-600 hover:underline duration-400 cursor-pointer"
+            >
+              Return Home
+            </span>
           </div>
         </form>
       </div>

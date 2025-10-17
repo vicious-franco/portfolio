@@ -11,7 +11,6 @@ import {
   Eye,
 } from "lucide-react";
 import { GlobalContext } from "../GlobalContext/GlobalContext";
-import { projects } from "../assets/data";
 import { toast } from "react-toastify";
 
 const Project = () => {
@@ -24,11 +23,8 @@ const Project = () => {
 
   useEffect(() => setProjectsRender(allProjects), [allProjects]);
 
-  console.log(desc);
   // project render
-  useEffect(() => {
-    console.log("Updated allProjects state:", projectsRender);
-  }, [allProjects]);
+  useEffect(() => {}, [allProjects]);
 
   const projectFilters = [
     { id: 1, label: "All" },
@@ -128,17 +124,17 @@ const Project = () => {
             .map((item) => {
               return (
                 <div
-                  key={item.id}
-                  className="shadow-inner shadow-green-600 rounded-md overflow-hidden"
+                  key={item._id}
+                  className="border border-green-500/50 bg-[#02a94c]/4  rounded-md overflow-hidden"
                 >
                   <div
                     onMouseEnter={() => setDesc({ [item._id]: true })}
                     onMouseLeave={() => setDesc({ [item._id]: false })}
-                    className="border relative overflow-hidden h-[280px] w-full  md:h-[280px] md:min-w-[300px] lg:min-w-[200px] border-[#02a94c]/30   group hover:-translate-[2px] duration-300 ease-in-out"
+                    className="border relative overflow-hidden h-[280px] w-full   md:h-[280px] md:min-w-[300px] lg:min-w-[200px] border-[#02a94c]/30   group hover:-translate-[2px] duration-300 ease-in-out"
                   >
-                    <div className="relative w-full bg-gradient-to-bl from-white/20 to-0 h-60 ">
+                    <div className="relative w-full bg-gradient-to-bl from-white/20 to-0 h-full">
                       {item.isLive ? (
-                        <p className="absolute  z-10 top-0 right-0 m-2 text-sm text-green-400  bg-green-500/20 inline-block px-2 rounded-full  border-green-400/50">
+                        <p className="absolute  z-10 top-0 right-0 m-2 text-sm text-green-400  bg-green-500/20 inline-block px-2 rounded-full h-full border-green-400/50">
                           Live
                         </p>
                       ) : (
@@ -148,7 +144,7 @@ const Project = () => {
                       )}
                       {item.imageFile ? (
                         <img
-                          src={`${baseUrl}${item.imageFile}`}
+                          src={`${item.imageFile}`}
                           alt=""
                           className="object-cover w-full h-full brightness-75 duration-400 ease-in-out cursor-pointer hover:brightness-95"
                         />
@@ -158,14 +154,10 @@ const Project = () => {
                         </div>
                       )}
                     </div>
-                    <p className="z-100 flex itemx-center gap-3 absolute top-0 left-0 m-4 text-sm text-green-400  bg-green-500/20  px-2 rounded-full border border-green-400/50">
+                    <p className="z-100 flex items-center gap-3 absolute top-0 left-0 m-4 text-sm text-green-400  bg-green-500/20  px-2 rounded-full border border-green-400/50">
                       <Star className="w-4" /> Featured
                     </p>
-                    <img
-                      className="w-full  rounded-md  h-full object-cover brightness-50 hover:brightness-95 group-hover:brightness-90 duration-500 ease-in-out transition-all "
-                      src={`${baseUrl}${item.imageFile}`}
-                      alt=""
-                    />
+
                     {/* description */}
                     {desc[item._id] && (
                       <motion.div

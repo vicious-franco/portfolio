@@ -6,15 +6,6 @@ import { FaGithub } from "react-icons/fa";
 
 // skills icons
 import { SiTailwindcss, SiExpress, SiMongodb } from "react-icons/si";
-
-// project images
-import accordion from "./dev assets/projects/accordion.png";
-import spotify from "./dev assets/projects/spotify-clone.png";
-import stripe from "./dev assets/projects/stripe.png";
-import milacurous from "./dev assets/projects/Milacurous.png";
-import Etutor from "./dev assets/projects/E-tutor.png";
-import ReadMore from "./dev assets/projects/Read More.png";
-
 import { FaReact, FaHtml5, FaCss3Alt, FaJs, FaNodeJs } from "react-icons/fa";
 
 export const socialIcons = [
@@ -73,47 +64,6 @@ export const BackendSkills = [
   { name: "Node js", rate: 97 },
   { name: "Express js", rate: 70 },
   { name: "Mongo db", rate: 75 },
-];
-
-// projects
-
-export const projects = [
-  {
-    id: 1,
-    name: "Stripe",
-    image: stripe,
-    stack: ["React", "Tailwind"],
-  },
-  {
-    id: 2,
-    name: "Accordion",
-    image: accordion,
-    stack: ["React", "Tailwind"],
-  },
-  {
-    id: 3,
-    name: "Milacurous",
-    image: milacurous,
-    stack: ["Mongo", "Express Js", "React", "Tailwind"],
-  },
-  {
-    id: 4,
-    name: "Spotify clone",
-    image: spotify,
-    stack: ["Mongo", "Express Js", "React", "Tailwind"],
-  },
-  {
-    id: 5,
-    name: "E-Tutor",
-    image: Etutor,
-    stack: ["React", "Tailwind"],
-  },
-  {
-    id: 6,
-    name: "Tours",
-    image: ReadMore,
-    stack: ["React", "Tailwind"],
-  },
 ];
 
 // navigations Nav Componets

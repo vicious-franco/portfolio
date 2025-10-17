@@ -9,18 +9,18 @@ import Login from "./admin/admin_component/Login";
 import DashBoard from "./admin/admin_component/DashBoard";
 import { AdminContextAuth } from "./admin/adminContext/AdminContext";
 import { useContext } from "react";
-import {ToastContainer,toast} from "react-toastify"
-  
+import { ToastContainer, toast } from "react-toastify";
+
 const App = () => {
   const { userData, isloggedin } = useContext(AdminContextAuth);
   const [isLoading, setisLoading] = useState(true);
   const location = useLocation();
-  // if (isLoading && !location.pathname.startsWith("/auth/secret")) {
-  //   return <Loader isLoading={isLoading} setisLoading={setisLoading} />;
-  // }
+  if (isLoading && !location.pathname.startsWith("/auth/secret")) {
+    return <Loader isLoading={isLoading} setisLoading={setisLoading} />;
+  }
   return (
     <div className=" max-w-screen  overflow-hidden">
-      <ToastContainer/>
+      <ToastContainer theme="colored" closeOnClick={true} draggable />
       <Routes>
         <Route
           path="/"

@@ -135,8 +135,9 @@ const DashBoard = () => {
               </div>
               {userData.phone_number && (
                 <p
-                  onClick={()=>navigate("/")}
-                  className="uppercase cursor-pointer hover:text-green-500 text-center font-light">
+                  onClick={() => navigate("/")}
+                  className="uppercase cursor-pointer hover:text-green-500 text-center font-light"
+                >
                   portfolio
                 </p>
               )}
@@ -264,7 +265,7 @@ const DashBoard = () => {
                     )}
                     {item.imageFile ? (
                       <img
-                        src={`${baseUrl}${item.imageFile}`}
+                        src={`${item.imageFile}`}
                         alt=""
                         className="object-cover w-full h-full brightness-75 duration-400 ease-in-out cursor-pointer hover:brightness-95"
                       />

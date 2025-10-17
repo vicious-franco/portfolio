@@ -1,250 +1,275 @@
 import { motion } from "framer-motion";
-import React, { useEffect, useState, useContext } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Plus } from "lucide-react";
+import { useState } from "react";
+import { useContext } from "react";
 import { AdminContextAuth } from "../adminContext/AdminContext";
 
-const UpdateProject = ({ projectId, setshowUpdate }) => {
+const NewProject = ({ setaddProject }) => {
   const { baseUrl, getProjectData } = useContext(AdminContextAuth);
-  const [project, setProject] = useState(null);
-  const [formState, setFormState] = useState({ techs: [] });
 
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const res = await fetch(`${baseUrl}/api/projects/${projectId}`);
-        const data = await res.json();
-        setProject(data.project);
-        setFormState({
-          projectName: data.project.projectName || "",
-          description: data.project.description || "",
-          githubLink: data.project.githubLink || "",
-          liveLink: data.project.liveLink || "",
-          techs: data.project.techs || [],
-          isLive: data.project.isLive || false,
-        });
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchProject();
-  }, [baseUrl, projectId]);
+  // handle form functions
 
-  const handleChange = (e) => {
-    setFormState((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleTechs = (e) => {
+  const [techStacks, settechStacks] = useState([]);
+  const handleStacks = (e) => {
     const { value, checked } = e.target;
-    setFormState((prev) => {
-      const techs = checked
-        ? [...prev.techs, value]
-        : prev.techs.filter((t) => t !== value);
-      return { ...prev, techs };
-    });
-  };
-
-  const handleStatus = (e) => {
-    setFormState((prev) => ({
-      ...prev,
-      isLive: e.target.value === "Live",
-    }));
-  };
-
-  const handleFile = (e) => {
-    if (e.target.files[0]) {
-      setFormState((prev) => ({
-        ...prev,
-        imageFile: e.target.files[0],
-      }));
+    if (checked) {
+      settechStacks((prev) => [...prev, value]);
     }
   };
+
+  const [createProject, setcreateProject] = useState({ techs: [] });
+
+  const handleChange = (e) => {
+    setcreateProject((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
+  };
+  const handleTechs = (e) => {
+    if (e.target.checked) {
+      setcreateProject((prev) => {
+        return { ...prev, techs: [...prev.techs, e.target.value] };
+      });
+    }
+  };
+  console.log(createProject);
+
+  // submitting project to api backend
 
   const submitProject = async (e) => {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append("projectName", formState.projectName);
-      formData.append("description", formState.description);
-      formData.append("githubLink", formState.githubLink);
-      formData.append("liveLink", formState.liveLink);
-      formData.append("techs", JSON.stringify(formState.techs));
-      formData.append("isLive", formState.isLive);
+      formData.append("projectName", createProject.projectName);
+      formData.append("description", createProject.description);
+      formData.append("githubLink", createProject.githubLink);
+      formData.append("liveLink", createProject.liveLink);
+      formData.append("techs", JSON.stringify(createProject.techs)); 
+      formData.append("image", createProject.imageFile); 
 
-      if (formState.imageFile) {
-        formData.append("image", formState.imageFile);
-      }
-
-      const res = await fetch(`${baseUrl}/api/projects/update/${projectId}`, {
-        method: "PATCH",
-        credentials: "include",
+     
+      const res = await fetch(`${baseUrl}/api/projects/upload`, {
+        method: "POST",
         body: formData,
+       
       });
-      if (!res.ok) throw new Error("Failed to update project");
-      await getProjectData();
-      navigate("/auth/secret/admin/dashboard");
-    } catch (err) {
-      console.error(err);
+      if (!res.ok) {
+        throw new Error(
+          `Failed to add a project: ${res.status} ${res.statusText}`
+        );
+      }
+      const data = await res.json();
+      if (data.success) {
+        console.log(data);
+        await getProjectData();
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
-
-  if (!project) return <div className="text-white">Loading...</div>;
-
+  console.log(createProject.imageFile);
+  const navigate = useNavigate();
   return (
-    <section className="fixed inset-0 h-screen w-full flex overflow-hidden items-center bg-black/30 backdrop-blur-sm justify-center p-0 m-0 custom-scroll">
-      <motion.form
-        initial={{ opacity: 0, y: -60 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.5,
-          type: "tween",
-          ease: "easeInOut",
-        }}
-        onSubmit={submitProject}
-        className="w-full max-w-2xl mx-auto bg-[#1c2532]/95 custom-scroll rounded-xl overflow-hidden shadow-2xl border border-[#2b3544] p-8 sm:p-12 flex flex-col gap-8 overflow-y-auto max-h-[90vh]"
-      >
-        <h1 className="text-center font-bold text-3xl capitalize text-white mb-2 tracking-wide">
-          Update Project
-        </h1>
-        <div className="">
-          <label className="text-gray-100 mb-2 block o" htmlFor="title">
-            Project Title
-          </label>
-          <input
-            onChange={handleChange}
-            className="rounded-md px-4 py-2 bg-[#2b3544] text-white w-full focus:outline-none focus:ring-2 focus:ring-green-600 transition"
-            placeholder="Enter The Project Title"
-            type="text"
-            name="projectName"
-            id="title"
-            value={formState.projectName}
-            autoComplete="off"
-          />
-        </div>
-        <div>
-          <label className="text-gray-100 mb-2 block" htmlFor="image">
-            Project Image
-          </label>
-          <input
-            className="rounded-md px-4 py-2 bg-[#2b3544] text-white w-full"
-            type="file"
-            name="image"
-            onChange={handleFile}
-            id="image"
-          />
-          {project.imageUrl && (
-            <img
-              src={project.imageUrl}
-              alt="Current"
-              className="mt-3 w-40 h-28 object-cover rounded-lg border border-[#2b3544] shadow"
-            />
-          )}
-        </div>
-        <div>
-          <label className="text-gray-100 mb-2 block" htmlFor="githubLink">
-            Github Link
-          </label>
-          <input
-            className="rounded-md px-4 py-2 bg-[#2b3544] text-white w-full focus:outline-none focus:ring-2 focus:ring-green-600 transition"
-            placeholder="https://github.com/octocat/example"
-            type="text"
-            onChange={handleChange}
-            name="githubLink"
-            id="githubLink"
-            value={formState.githubLink}
-            autoComplete="off"
-          />
-        </div>
-        <div>
-          <label className="text-gray-100 mb-2 block" htmlFor="liveLink">
-            Live Link
-          </label>
-          <input
-            className="rounded-md px-4 py-2 bg-[#2b3544] text-white w-full focus:outline-none focus:ring-2 focus:ring-green-600 transition"
-            placeholder="https://exam.com"
-            type="text"
-            onChange={handleChange}
-            name="liveLink"
-            id="liveLink"
-            value={formState.liveLink}
-            autoComplete="off"
-          />
-        </div>
-        <div>
-          <label className="text-gray-100 mb-2 block" htmlFor="description">
-            Description
-          </label>
-          <textarea
-            id="description"
-            className="bg-[#2b3544] rounded-md p-4 text-white w-full min-h-[100px] focus:outline-none focus:ring-2 focus:ring-green-600 transition"
-            onChange={handleChange}
-            name="description"
-            placeholder="Describe your Project"
-            value={formState.description}
-          />
-        </div>
-        {/* Tech stacks */}
-        <div>
-          <label className="text-gray-100 mb-2 block" htmlFor="stacks">
-            Select Tech Stacks
-          </label>
-          <div className="bg-[#2b3544] rounded-md px-4 py-3 flex flex-wrap gap-4">
-            {["React js", "Mongo DB", "Python", "Express js", "Node js"].map(
-              (tech) => (
-                <label
-                  key={tech}
-                  className="flex items-center space-x-2 text-white"
-                >
-                  <input
-                    type="checkbox"
-                    value={tech}
-                    checked={formState.techs.includes(tech)}
-                    onChange={handleTechs}
-                    className="accent-green-500"
-                  />
-                  <span>{tech}</span>
-                </label>
-              )
-            )}
+    <section className=" h-screen fixed top-0 right-0 overflow-hidden sm:overflow-auto bg-black/30 backdrop-blur-sm w-full flex items-center justify-center">
+      <div className=" ">
+        <motion.form
+          initial={{ opacity: 0, y: -200 }}
+          animate={{ opacity: 1, y: 1 }}
+          transition={{
+            duration: 0.4,
+            type: "tween",
+            transitionBehavior: 10,
+            ease: "easeInOut",
+          }}
+          className="flex h-screen sm:h-[90vh] capitalize flex-col text-white bg-[#1c2532] p-8 sm:rounded-lg w-screen sm:w-[60vw] lg:w-[38vw] space-y-10"
+        >
+          <div>
+            <h1 className="text-center font-bold text-2xl capitalize">
+              Add new project
+            </h1>
           </div>
-        </div>
-        <div>
-          <label className="text-gray-100 mb-2 block" htmlFor="status">
-            Project Status
-          </label>
-          <select
-            onChange={handleStatus}
-            name="status"
-            id="status"
-            className="rounded-md px-4 py-2 bg-[#2b3544] text-white w-full focus:outline-none focus:ring-2 focus:ring-green-600 transition"
-            value={formState.isLive ? "Live" : "Development"}
-          >
-            <option value="choose a status" disabled>
-              Choose a status
-            </option>
-            <option value="Development">Development</option>
-            <option value="Live">Live</option>
-          </select>
-        </div>
-        <div className="flex justify-between mt-6">
-          <button
-            type="button"
-            onClick={() => setshowUpdate(false)}
-            className="py-2 px-6 rounded-md border border-white/10 bg-gray-600/40 text-white hover:bg-gray-700 hover:text-green-400 transition duration-300"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="py-2 px-8 rounded-md bg-green-600 text-white font-semibold hover:bg-green-500 transition duration-300 shadow-lg"
-          >
-            Update Project
-          </button>
-        </div>
-      </motion.form>
+          <div className="flex   capitalize flex-col space-y-7 overflow-auto custom-scroll">
+            <div className="flex flex-col mx-4">
+              <label className="text-gray-100 mb-2" htmlFor="title">
+                project title
+              </label>
+              <input
+                onChange={handleChange}
+                className="rounded-md px-4 py-1 bg-[#2b3544]"
+                placeholder="Enter The Project Title"
+                type="text"
+                name="projectName"
+                id="title"
+              />
+            </div>
+            <div className="flex flex-col mx-4">
+              <label className="text-gray-100 mb-2" htmlFor="title">
+                project file
+              </label>
+              <input
+                className="rounded-md px-4 py-1 bg-[#2b3544]"
+                type="file"
+                name="image"
+                onChange={(e) => {
+                  if (e.target.files[0]) {
+                    setcreateProject((prev) => {
+                      return { ...prev, imageFile: e.target.files[0] };
+                    });
+                  }
+                }}
+                id="title"
+              />
+            </div>
+            <div className="flex flex-col mx-4">
+              <label className="text-gray-100 mb-2" htmlFor="title">
+                github link
+              </label>
+              <input
+                className="rounded-md px-4 py-1 bg-[#2b3544]"
+                placeholder="https://github.com/octocat/example"
+                type="text"
+                onChange={handleChange}
+                name="githubLink"
+                id="title"
+              />
+            </div>
+            <div className="flex flex-col mx-4">
+              <label className="text-gray-100 mb-2" htmlFor="title">
+                live link
+              </label>
+              <input
+                className="rounded-md px-4 py-1 bg-[#2b3544]"
+                placeholder="https://exam.com"
+                type="text"
+                onChange={handleChange}
+                name="liveLink"
+                id="title"
+              />
+            </div>
+            <div className="flex flex-col mx-4">
+              <label className="text-gray-100 mb-2" htmlFor="description">
+                description
+              </label>
+              <textarea
+                type="text"
+                id="description"
+                className="bg-[#2b3544] rounded-md p-4"
+                onChange={handleChange}
+                name="description"
+                placeholder="Describe your Project"
+              />
+            </div>
+            {/* Tech stacks */}
+            <div className="flex flex-col mx-4">
+              <div className="flex justify-between">
+                <div className="flex flex-col  w-full">
+                  <label className="text-gray-100 mb-2" htmlFor="stacks">
+                    Select Tech Stacks
+                  </label>
+                  <div className="bg-[#2b3544] rounded-md px-4 py-2">
+                    <div className="gap-3 flex flex-col md:flex-row md:justify-between p-2 ">
+                      <div>
+                        <label className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            value="React js"
+                            className="accent-blue-500"
+                            onChange={handleTechs}
+                          />
+                          <span>React js</span>
+                        </label>
+
+                        <label className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            value="Mongo DB"
+                            onChange={handleTechs}
+                            className="accent-green-500"
+                          />
+                          <span>Mongo DB</span>
+                        </label>
+                      </div>
+                      <div>
+                        <label className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            onChange={handleTechs}
+                            value="Python"
+                            className="accent-yellow-500"
+                          />
+                          <span>Python</span>
+                        </label>
+
+                        <label className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            onChange={handleTechs}
+                            value="Express js"
+                            className="accent-gray-500"
+                            onClick={handleStacks}
+                          />
+                          <span>Express js</span>
+                        </label>
+                      </div>
+                      <div>
+                        <label className="flex items-center space-x-2">
+                          <input
+                            type="checkbox"
+                            onChange={handleTechs}
+                            value="Node js"
+                            className="accent-green-600"
+                          />
+                          <span>Node js</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col mx-4">
+              <label className="text-gray-100 mb-2" htmlFor="Tech">
+                project status
+              </label>
+
+              <select
+                onClick={(e) =>
+                  setcreateProject((prev) => {
+                    return { ...prev, isLive: e.target.value === "Live" };
+                  })
+                }
+                name="status"
+                id="status"
+                className="rounded-md px-4 py-2 bg-[#2b3544]"
+              >
+                <option value="choose a status" defaultValue={true}>
+                  choose a status
+                </option>
+                <option value="Development">Development</option>
+                <option value="Live">Live</option>
+              </select>
+            </div>
+
+            <div className="flex justify-between mx-4">
+              <button
+                onClick={() => setaddProject(false)}
+                className="py-1.5 px-2 md:px-10 rounded-md border border-white/10 bg-gray-600/40 cursor-pointer hover:bg-gray-700 duration-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={submitProject}
+                className="py-1.5 px-2 md:px-6 rounded-md bg-green-600 hover:bg-green-500 cursor-pointer duration-400"
+              >
+                Submit Project
+              </button>
+            </div>
+          </div>
+        </motion.form>
+      </div>
     </section>
   );
 };
 
-export default UpdateProject;
+export default NewProject;

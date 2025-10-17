@@ -4,15 +4,11 @@ import fs from "fs/promises";
 // creating project controller
 
 export const createProjects = async (req, res) => {
-   console.log("=== DEBUG INFO ===");
-   console.log("req.file:", req.file);
-   console.log("req.body:", req.body);
-   console.log("req.headers:", req.headers);
-   console.log("==================");
+  console.log("=== DEBUG INFO ===");
+  console.log("req.file:", req.file);
 
   const { projectName, description, techs, githubLink, isLive } = req.body;
-  const imageFile = req.file;
-
+  // const imageFile = req.file; // Removed unused variable
 
   if (!projectName || !description || !techs || !githubLink) {
     return res
@@ -49,9 +45,9 @@ export const createProjects = async (req, res) => {
   }
 };
 // getting projects controller
-export const getProjects = async (req, res) => {
+export const getProjects = async (_req, res) => {
   const allProjects = await ProjectModal.find();
-  if (!allProjects || allProjects < 1) {
+  if (!allProjects || allProjects.length < 1) {
     return res
       .status(404)
       .json({ success: false, message: "No projects found" });

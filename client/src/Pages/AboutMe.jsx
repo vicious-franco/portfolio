@@ -1,7 +1,5 @@
 import React from "react";
-import avatar from "../assets/dev assets/projects/avatar.png";
 import { motion } from "framer-motion";
-import { slideInFromLeft } from "../utilis/motion";
 
 const AboutMe = () => {
   return (
@@ -24,9 +22,9 @@ const AboutMe = () => {
           initial={{ opacity: 0, x: -100 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9 }}
-          className="w-[40%] m-auto"
+          className="max-w-[18em] lg:min-w-[20em] lg:max-w-[28em] m-auto"
         >
-          <img src={avatar} alt="" />
+          <img src="/avatar.png" alt="" />
         </motion.div>
         <div className="lg:w-[50%] space-y-6 flex flex-col justify-center">
           <motion.h1

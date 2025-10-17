@@ -22,10 +22,7 @@ app.use(
 );
 app.use(cookieParser());
 
-app.use(
-  "/projectUploads",
-  express.static(path.join(__dirname, "projectUploads"))
-);
+
 app.use(express.json());
 app.use("/api/projects", ProjectRouter);
 app.use("/api/portfolio", AuthRoute);

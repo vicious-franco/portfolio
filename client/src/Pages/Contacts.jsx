@@ -1,5 +1,4 @@
 import React, { useContext, useRef } from "react";
-import avatar from "../assets/dev assets/projects/avatar.png";
 import { socialIcons } from "../assets/data";
 import { FaPhone } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
@@ -90,7 +89,7 @@ const Contacts = () => {
                 initial={{ opacity: 0, scale: 0.5 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
-                src={avatar}
+                src="/avatar.png"
                 alt="avatar"
                 className="w-60 h-60 rounded-full object-cover"
               />
@@ -136,7 +135,7 @@ const Contacts = () => {
                 className="flex flex-col gap-6"
               >
                 {/* Name fields */}
-                <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex flex-col gap-4 mb-4">
                   <input
                     name="user_name"
                     type="text"
