@@ -1,5 +1,9 @@
-import dotenv from "dotenv";
-dotenv.config();
+// Only use dotenv in development
+if (process.env.NODE_ENV !== "production") {
+  const dotenv = await import("dotenv");
+  dotenv.config();
+}
+
 import express from "express";
 import connectDB from "./config/connectDB.js";
 import ProjectRouter from "./routes/projectRoutes.js";
@@ -16,12 +20,15 @@ const __dirname = path.resolve();
 app.use(
   cors({
     credentials: true,
-    origin: `http://localhost:5173`,
+    // Update CORS origin for production
+    origin:
+      process.env.NODE_ENV === "production"
+        ? process.env.FRONTEND_URL
+        : "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   })
 );
 app.use(cookieParser());
-
 
 app.use(express.json());
 app.use("/api/projects", ProjectRouter);
