@@ -18,6 +18,10 @@ dist-ssr/
 *.local
 .env
 
+# frontend env files
+client/.env
+client/.env.local
+
 # System files
 .DS_Store
 
