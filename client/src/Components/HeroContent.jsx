@@ -54,7 +54,7 @@ const HeroContent = () => {
                 <span className="hidden sm:inline">IRAKARAMA </span>
                 <span className="hidden sm:inline">Jean </span>
                 <span className="hidden sm:inline">Francois </span>
-                <span className="text-wrap">IRAKARAMA Jean Francois Leon</span>
+                <span className="text-wrap sm:hidden">IRAKARAMA Jean Francois Leon</span>
               </motion.span>
 
               <div className="flex flex-wrap items-center gap-3 mt-6 text-2xl sm:text-4xl md:text-5xl">
