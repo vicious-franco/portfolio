@@ -218,7 +218,7 @@ const Project = () => {
                       <button
                         onClick={() =>
                           item.isLive
-                            ? window.open(item.liveLink, "_blank")
+                            ? window.open(item.liveLink)
                             : toast.info(
                                 "project still under development phase"
                               )
