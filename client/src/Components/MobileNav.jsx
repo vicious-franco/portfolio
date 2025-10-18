@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { IoClose } from "react-icons/io5";
 import { GlobalContext } from "../GlobalContext/GlobalContext";
-import { motion } from "framer-motion";
+import { easeInOut, motion } from "framer-motion";
 
 const MobileNav = () => {
   const nav = [
@@ -17,10 +17,11 @@ const MobileNav = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0.8, x: 200 }}
+      initial={{ opacity: 0, x: 200 }}
       animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0.8, x: 200 }}
-      className="lg:hidden h-screen border  border-[#02a94c]/30 rounded-sm shadow-white/20 shadow-sm flex flex-col justify-between max-w-[20em] fixed top-0 bg-[#001012]/60 z-30 right-0 backdrop-blur-sm "
+      transition={{ duration: 0.4, ease: easeInOut }}
+      exit={{ opacity: 0, x: 200 }}
+      className="lg:hidden h-screen border  border-[#02a94c]/40 rounded-sm shadow-white/20 shadow-sm flex flex-col justify-between max-w-[15em] fixed top-0 bg-[#001012]/60 z-30 right-0 backdrop-blur-sm "
     >
       <div className="flex flex-col gap-3 ">
         <span
@@ -33,7 +34,7 @@ const MobileNav = () => {
           <a
             href={`#${link}`}
             onClick={() => setIsOpen(false)}
-            className="text-gray-300 font-semibold text-xl  py-2 px-10 active:text-[#0eac79] cursor-pointer"
+            className="text-gray-300 font-semibold text-md shadow-md shadow-green-500/10 pb-6 md:text-xl  py-2 px-10 active:text-[#0eac79] cursor-pointer"
             key={index + 1}
           >
             {name}
@@ -47,7 +48,7 @@ const MobileNav = () => {
         </a>
       </div>
       <div className="text-gray-400 mb-5 px-2 text-sm">
-        <h1>&copy; 2025 LeonDev — Built with passion.</h1>
+        <h1>&copy; 2025 viciousDev — Built with passion.</h1>
       </div>
     </motion.div>
   );

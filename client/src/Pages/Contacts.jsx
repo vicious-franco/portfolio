@@ -54,7 +54,7 @@ const Contacts = () => {
   return (
     <section
       id="contacts"
-      className="relative w-full my-20 min-h-[80vh] px-4 lg:px-16"
+      className="relative w-full my-20 min-h-[80vh] lg:px-16"
     >
       {/* Header */}
       <motion.h2
@@ -81,10 +81,10 @@ const Contacts = () => {
 
       {/* Content */}
       <div className="my-20">
-        <div className="w-full p-4 backdrop-blur-2xl">
+        <div className="w-full py-4 backdrop-blur-2xl">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Left: Contact Info */}
-            <div className="w-full lg:w-1/3 bg-[#0b1f1d]/40 rounded-xl p-6 flex flex-col items-center justify-start gap-6">
+            <div className=" w-full lg:w-1/3 bg-[#0b1f1d]/40  rounded-xl p-6 flex flex-col items-center justify-start gap-6">
               <motion.img
                 initial={{ opacity: 0, scale: 0.5 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -95,7 +95,7 @@ const Contacts = () => {
               />
 
               {/* Contact Details */}
-              <div className="text-[#02a94c] space-y-2 text-center">
+              <div className="text-[#02a94c] space-y-2 text-center ">
                 <div className="flex items-center gap-3 justify-center">
                   <FaPhone />
                   <p>+250 787 723 189</p>

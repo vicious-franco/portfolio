@@ -47,6 +47,10 @@ html {
   cursor: pointer;
 }
 
+.hide-scroll::-webkit-scrollbar {
+  appearance: none;
+}
+
 @layer utilities {
   @keyframes bouncing {
     0% {

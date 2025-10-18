@@ -21,6 +21,8 @@ const Project = () => {
   const { allProjects, setAllProjects, baseUrl } = useContext(GlobalContext);
   const [projectsRender, setProjectsRender] = useState([]);
 
+  // responsiveness based on screen size
+
   useEffect(() => setProjectsRender(allProjects), [allProjects]);
 
   // project render
@@ -184,12 +186,12 @@ const Project = () => {
                         {item.description}
                       </p>
                     </div>
-                    <div className="flex gap-3 mt-3">
+                    <div className="flex gap-3 mt-3 overflow-auto hide-scroll">
                       {item.techs.map((tech, index) => {
                         return (
                           <span
                             key={index + 10}
-                            className="rounded-full text-gray-300 text-sm bg-gray-600/30 backdrop-blur-md border border-green-500/20 px-2 py-0.5"
+                            className="text-nowrap rounded-sm text-gray-300 text-sm bg-gray-600/30 backdrop-blur-md border border-green-500/20 px-2 py-0.5"
                           >
                             {tech}
                           </span>
