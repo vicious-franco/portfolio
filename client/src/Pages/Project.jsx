@@ -173,9 +173,25 @@ const Project = () => {
                         exit={{ opacity: 0, x: 200 }}
                         className="absolute z-10 top-0 left-0 bg-gradient-to-t from-[#0f192d] to-[#44c49c8a] border border-[#02a94c] flex flex-col justify-center items-center backdrop-blur-md h-full w-full"
                       >
-                        <button className=" rounded-sm hover:bg-[#0f192d] cursor-pointer border border-[#4ad3a8] px-5 py-2  text-white uppercase text-md font-semibold ">
-                          {item.isLive ? "Live Demo" : "Github Repo"}
-                        </button>
+                        {item.isLive ? (
+                          <a
+                            href={item.liveLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className=" rounded-sm hover:bg-[#0f192d] cursor-pointer border border-[#4ad3a8] px-5 py-2  text-white uppercase text-md font-semibold "
+                          >
+                            <button>Live Demo</button>
+                          </a>
+                        ) : (
+                          <a
+                            href={item.githubLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className=" rounded-sm hover:bg-[#0f192d] cursor-pointer border border-[#4ad3a8] px-5 py-2  text-white uppercase text-md font-semibold "
+                          >
+                            <button>Github Repo</button>
+                          </a>
+                        )}
                       </motion.div>
                     )}
                   </div>
@@ -215,21 +231,29 @@ const Project = () => {
                       </div>
                     </div>
                     <div className="flex justify-between gap-12 my-6 cursor-pointer ">
-                      <a
-                        href={item.isLive ? item.liveLink : "#projects"}
-                        className="cursor-pointer w-full  flex items-center justify-center gap-2 py-2 bg-green-600 duration-400 hover:bg-green-500 text-white rounded-lg"
-                      >
+                      {/* view live project */}
+                      {item.isLive ? (
+                        <a
+                          href={item.liveLink}
+                          target="_black"
+                          rel="noopener noreferrer"
+                          className="cursor-pointer w-full  flex items-center justify-center gap-2 py-2 bg-green-600 duration-400 hover:bg-green-500 text-white rounded-lg"
+                        >
+                          <button className="flex items-center gap-2 ">
+                            <ExternalLink className="w-5 h-4" /> View Live
+                          </button>
+                        </a>
+                      ) : (
                         <button
+                          className="cursor-pointer w-full  flex items-center justify-center gap-2 py-2 bg-green-600 duration-400 hover:bg-green-500 text-white rounded-lg"
                           onClick={() =>
                             !item.isLive &&
                             toast.info("project still under development phase")
                           }
-                          className="flex items-center gap-2 "
                         >
                           <ExternalLink className="w-5 h-4" /> View Live
                         </button>
-                      </a>
-
+                      )}
                       <button
                         onClick={() => window.open(item.githubLink, "_blank")}
                         className="w-full  cursor-pointer flex justify-center items-center gap-2 py-2 bg-[#242e3e] duration-400 hover:bg-gray-700 rounded-lg text-white"
