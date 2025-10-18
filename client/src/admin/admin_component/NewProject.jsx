@@ -33,7 +33,6 @@ const NewProject = ({ setaddProject }) => {
       });
     }
   };
-  console.log(createProject);
 
   // submitting project to api backend
 
@@ -45,14 +44,12 @@ const NewProject = ({ setaddProject }) => {
       formData.append("description", createProject.description);
       formData.append("githubLink", createProject.githubLink);
       formData.append("liveLink", createProject.liveLink);
-      formData.append("techs", JSON.stringify(createProject.techs)); 
-      formData.append("image", createProject.imageFile); 
+      formData.append("techs", JSON.stringify(createProject.techs));
+      formData.append("image", createProject.imageFile);
 
-     
       const res = await fetch(`${baseUrl}/api/projects/upload`, {
         method: "POST",
         body: formData,
-       
       });
       if (!res.ok) {
         throw new Error(
@@ -61,14 +58,12 @@ const NewProject = ({ setaddProject }) => {
       }
       const data = await res.json();
       if (data.success) {
-        console.log(data);
         await getProjectData();
       }
     } catch (error) {
       console.log(error);
     }
   };
-  console.log(createProject.imageFile);
   const navigate = useNavigate();
   return (
     <section className=" h-screen fixed top-0 right-0 overflow-hidden sm:overflow-auto bg-black/30 backdrop-blur-sm w-full flex items-center justify-center">
