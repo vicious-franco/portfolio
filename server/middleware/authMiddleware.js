@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import AdminModel from "../Model/AdminAuth.js";
 
 export const authenticateUser = async (req, res, next) => {
   const { login_token } = req.cookies;
+  console.log("login_token from authMiddleware: " + login_token);
   if (!login_token) {
     return res
       .status(401)
