@@ -215,18 +215,20 @@ const Project = () => {
                       </div>
                     </div>
                     <div className="flex justify-between gap-12 my-6 cursor-pointer ">
-                      <button
-                        onClick={() =>
-                          item.isLive
-                            ? window.open(item.liveLink)
-                            : toast.info(
-                                "project still under development phase"
-                              )
-                        }
-                        className="cursor-pointer w-full  flex items-center justify-center gap-2 py-2 bg-green-600 duration-400 hover:bg-green-500 text-white rounded-lg "
+                      <a
+                        href={item.isLive ? item.liveLink : "#projects"}
+                        className="cursor-pointer w-full  flex items-center justify-center gap-2 py-2 bg-green-600 duration-400 hover:bg-green-500 text-white rounded-lg"
                       >
-                        <ExternalLink className="w-5 h-4" /> View Live
-                      </button>
+                        <button
+                          onClick={() =>
+                            !item.isLive &&
+                            toast.info("project still under development phase")
+                          }
+                          className="flex items-center gap-2 "
+                        >
+                          <ExternalLink className="w-5 h-4" /> View Live
+                        </button>
+                      </a>
 
                       <button
                         onClick={() => window.open(item.githubLink, "_blank")}
